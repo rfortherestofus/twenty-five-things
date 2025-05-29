@@ -70,19 +70,20 @@ TODO: Add example
 
 ---
 
-## 6. Make interactive data viz with {ggiraph}
+## 6. Make a custom ggplot theme
 
-One thing that I'm guessing everyone here has done is made data visualization with ggplot. What if I told you that you could turn your static plots into interactive plots with just a few lines of code? That's exactly what I do with the {ggiraph} package.
-
-TODO: Add code example
-
----
-
-## 7. Make a custom ggplot theme
+If you make plots in ggplot (and if you're here, I'm guessing you do), keeping them consistent and on brand can be challenging. Fortunately, this is where themes come in. If you've never tried to make your own ggplot theme, you should! It's surprisingly simple and with a few lines of code you can ensure that all of your plots are on brand.
 
 **Resources**
 - Jadey blog post
 - Book chapter
+---
+
+## 7. Make interactive data viz with {ggiraph}
+
+One thing that I'm guessing everyone here has done is made data visualization with ggplot. What if I told you that you could turn your static plots into interactive plots with just a few lines of code? That's exactly what I do with the {ggiraph} package.
+
+TODO: Add code example
 
 ---
 
@@ -92,6 +93,8 @@ TODO: Add code example
 
 ## 8. Make maps
 
+R is renowned for its graph-making capabilities. Did you know that you can use ggplot, that same package you use to make graphs, to make maps. There is a special geom (`geom_sf()`) that allows you to make maps. And everything you have learned about ggplot applies to maps too: color and fill scales, themes, and more.
+
 **Resources**
 - Book chapter
 - Course
@@ -100,36 +103,63 @@ TODO: Add code example
 
 ## 9. Do geospatial data analysis (e.g. Meijer stores example)
 
+It's not just mapping that you can do in R. If you need to do geospatial analysis in R, that's very possible! While many people think of tools like ArcGIS for geospatial analysis, R is a fully-fledged GIS tool. A client we work with recently asked me to do an analysis of SNAP-Ed program sites within 5 miles of grocery stores. With just a few lines of code, I was able to tell her the sites that met this criteria. This is just one example of how you can use R for geospatial analysis. 
+
+https://github.com/MichiganFitnessFoundation/mff-r-training/issues/74
+
 ---
 
 # Reporting
+
+Whatever else you do in R, you need to report your results. As a tool designed for reproducible reporting, R is, of course, incredibly well designed for this purpose. Here are some ways you can improve your reporting in R.
 
 ---
 
 ## 10. Use Quarto
 
+Yes, David, you may be thinking, I know about using Quarto or its cousin RMarkdown. That may be true for you, but in my years of working with R, I can't tell you how many folks I've met who do not use Quarto. If you are one of these people, or know someone who is, tell them this story:
+
+TODO: Come up with story
+
 ---
 
 ## 11. Make wide range of outputs with Quarto
+
+When I teach people to use Quarto, I always start with simple outputs: single HTML files, PDFs, and Word documents. But Quarto can make way more than just those. You can build a full website with Quarto, a dashboard, slides, and much more. 
 
 ---
 
 ## 12. brand.yml
 
+A recent addition to the Quarto landscape is brand.yml. This framework allows you to add a single file, `_brand.yml`, to your project which lets you specify things like fonts, colors, logos, and more. Keeping your Quarto documents on brand has never been easier!
+
+**Resources**
+- brand.yml website
+- Podcast with Garrick
+
 ---
 
 ## 13. Publish websites online with Netlify
 
+Creating reports in Quarto is just the first step. You also need to share them. If you render to some type of HTML output (this can be HTML files, websites, dashboards, slides, and more), you can publish them online. My favorite tool to do this is Netlify. Connect your GitHub repo to Netlify and every time you push updates they will show up online. 
 
 ---
 
 ## 14. Make multiple websites for stakeholders (like MFF did)
 
+Making a website with Quarto is pretty cool. Making many websites with Quarto is very cool. A client I worked with needed to create separate websites for various organizations they work with. They created a website template and then wrote code to render it multiple times, creating a website for each organization. 
+
+TODO: Clarify details (was it survey?)
 
 
 ---
 
 ## 15. Make PDFs with typst
+
+Most people, when they think about making PDFs in Quarto, immediately think Latex. If this is enough to put you off from making PDFs in R, please know there is a new alternative. Known as typst, it is a modern reimagining of Latex. 
+
+**Resources**
+- My talk
 
 ---
 

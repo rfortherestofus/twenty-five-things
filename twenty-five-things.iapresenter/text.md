@@ -169,29 +169,76 @@ Most people, when they think about making PDFs in Quarto, immediately think Late
 
 ## 16. Use the {gmailr} or {blastula} package to send reports to stakeholders (e.g. how we did this for Prosper Portland)
 
+In 2020, at the start of the COVID pandemic, we were working with Prosper Portland, the small business development agency for the city of Portland. They had quickly started a grant program for businesses impacted by the pandemic. It was, like so much in those early days of COVID, thrown together quickly. They set up an application form and they wanted an easy way to see a summary of information about businesses seeking relief. We wrote code to pull data from a Google Sheet and create a summary report. And, best of all, we set it up to email the report directly to Prosper Portland staff using the {gmailr} package. 
+
+**Resources**
+- https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/render_gmail.R
+- https://pkgs.rstudio.com/blastula/
+
 ---
 
 ## 17. Using GitHub Actions to run code on a schedule (e.g. Prosper Portland)
+
+When I talked about the daily reports we created for Prosper Portland, I committed one key thing: once we set up the code, we never ran it manually. How did we run the code to pull in the data, render the reports, and email them to Prosper Portland? With GitHub Actions. If you've never heard of GitHub Actions, it's a tool that runs code on your behalf. You add a special YAML file to your GitHub repo and your code runs on a schedule. Magic!
+
+TODO: Show YAML file: https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/.github/workflows/email_report.yaml
+
+**Resources**
+- R for the Rest of Us Blog post
+- Albert Rapp blog post
 
 ---
 
 ## 18. Use fs package to work with files (e.g. how I zip and send all files to Elissa)
 
+Speaking of automation, I often have to move files around. For example, when working on the annual Oregon by the Numbers Report, I make a ton of plots that I have to share with the graphic designer who lays out the report. I used to manually copy all of these files and upload them to Google Drive. But then I came across the {fs} and {zip} packages. I use {fs} to create a list of all the files I've created, which I then pass to the {zip} package in order to create a zip file. And, if I'm feeling extra fancy, I upload the zip file automatically to Google Drive using the {googledrive} package. With all of this, I just have to run my code and share a single link with the designer.
+
+**Resources**
+- 250 plots blog post
+
 ---
 
 # LLMs for coding
 
----
+Let's finish off by talking about ways that you can use large language models when working with R. Now I'm not an AI hype boy here to tell you that this or that model will blow your mind. And, to be honest, I'm actually a bit hesitant to discuss AI at all because what I tell you today may already be out of date. That said, I think there are some foundational ways that you can use LLMs that will stand the test of time. 
 
-## 19. Use GitHub Copilot or Codeium
-
----
-
-## 20. Set up a custom GPT to get answers
 
 ---
 
-## 21. Use {chores} package to get LLMs to work with your data
+## 19. Set up a custom GPT to get answers
+
+My initial foray into using LLMs to work with code was, as I suspect was the case for many of you, through asking ChatGPT questions. And, like many of you, I found its answers at times incredibly helpful and at other times incredibly maddening. Sometimes it would give me base R code, other times tidyverse code. What I came to realize is that I needed to give it detailed instructions on what I wanted. And the best way to do this is to create custom instructions. Now, every time I ask an R question to an LLM, I do it with the following instructions:
+
+> Please answer the following R question. When I program, I always like to use the tidyverse. Please don't ever give me base R solutions. Please also always use the native pipe (|>) not the tidyverse pipe (%>%).
+
+You can paste in instructions like this each time you work with your AI tool of choice. You can create custom GPTs in ChatGPT to save these custom instructions. I use a tool called Raycast for working with LLMs and it has a feature that allows me to create a custom AI prompt with these insturctions.
+
+TODO: Add screenshot of instructions
+
+Every time I have a question for AI, I call up my AI chat preset, which has my instructions embedded in it, and get out answers tailored to my desired style of coding. 
+
+**Resources**
+- Simon Couch interview
+
+---
+
+## 20. Use GitHub Copilot or Windsurf
+
+Working with a tool like Raycast or ChatGPT requires you to go outside of your code editor. Another approach is to work with LLMs directly in your editor. If you use RStudio, you can connect directly with GitHub Copilot. If you use Positron, there are a number of extensions you can use to have LLMs interact directly with your code. Whether it's offering suggestions on improving your code, adding new code, or asking general questions about your code, these tools can be extremely helpful.
+
+---
+
+## 21. Use {gander} package to get LLMs to work with your data
+
+A few months ago, I spoke with Posit developer Simon Couch, who is working on a range of R packages to interact with LLMs. Simon has written that:
+
+> Data science differs a bit from software engineering here, though, in that the state of your R environment is just as important (or more so) than the contents of your files. 
+
+In our conversation, Simon explained this further, saying that, when asking a question to an LLM, it's useful if it can see what the objects in your environment look like. The {gander} package solves this problem by passing information about your data frames alongside whatever request you make of an LLM.
+
+**Resources**
+- Podcast episode
+- https://simonpcouch.github.io/gander/
 
 ---
 
@@ -211,7 +258,7 @@ Most people, when they think about making PDFs in Quarto, immediately think Late
 
 ---
 
-# 25. Community
+# 25. Join the Community
 
 ---
 

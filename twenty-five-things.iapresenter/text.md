@@ -244,21 +244,54 @@ In our conversation, Simon explained this further, saying that, when asking a qu
 
 # LLMs for data analysis
 
+LLMs are great for helping you write code to analyze your data. They can also do some of the data analysis for you. 
+
+Now, before anything else, I have to say: please don't rely on LLMs for mission critical analysis without manually reviewing its work. Hallucinations are real.
+
+With that said, the area I have found LLMs to be most helpful is with qualitative data. This data, which is often unstructured, is a perfect candidate for a tool that is comfortable bringing structure to messiness. Here are a few ways you can use it.
+
 ---
 
 ## 22. Summarize text
+
+If you've ever conducted a survey or simply asked an open-ended question and got more text back than you could analyze by hand, why not try using AI for a quick and dirty analysis? The {mall} package lets you take long text and summarize it down to a shorter length.
+
+TODO: Add example
+
+**References**
+- https://mlverse.github.io/mall/#summarize
 
 ---
 
 ## 23. Translate text
 
+The {mall} package can also translate text. If you get responses in multiple languages, you can easily translate them to English. 
+
+TODO: Add examples
+
+TODO: Show translating text and then summarizing
+
 ---
 
-## 24. Do sentiment analysis on text
+## 24. Create your own prompt
+
+The {mall} package provides some great out-of-the-box prompts you can use. You can also create your own prompts. I've used the {ellmer} package to interact directly with LLMs. 
+
+Here, for example, I created my own function using {ellmer} to identify themes from a set of survey responses. 
+
+TODO: Add example
 
 ---
 
 # 25. Join the Community
+
+I've now given you 24 things that you perhaps didn't know you could do with R. All of them are technical. But I'd be remiss if I didn't mention the one thing that you can do with R that is, in fact, the opposite of technical. 
+
+When I started learning R, I never expected to find such a strong, welcoming community. But that's exactly what I've found. R has technical power, sure. But it also has the ability to bring a wide range of people together on a beautiful Saturday to sit all day in an air conditioned room.
+
+You may not have ever considered it, but R can help you find your community. As you learn from others today, I hope that you will also learn about others as well. 
+
+If I, a qualitative researcher who, for so long, though of myself as not being a "real" user can come to speak to you today, TODO: Add more
 
 ---
 

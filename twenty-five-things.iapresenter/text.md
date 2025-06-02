@@ -2,13 +2,13 @@
 
 Hi, I'm David Keyes and I run R for the Rest of Us. I'm excited to be here today and to talk with you about doing things in R you didn't know you could do. Twenty-five things to be precise. 
 
-I find it ironic in many ways that I am up here talking to you about unique ways to use R. I say that because for a long time I didn't feel like a "real" R user. You see, I don't come from a typical R background. I'm a qualitative researcher with a PhD in anthropology. I don't have advanced training in statistics. When I started using R I felt like I wasn't a real R user because the most complicated stats I calculated were descriptive stats. 
+I find it ironic in many ways that I am up here talking to you about unique ways to use R. I say that because for a long time I didn't feel like a "real" R user. You see, I don't come from a typical R background. I'm a qualitative researcher with a PhD in anthropology. I don't have advanced training in statistics. When I started using R I felt like I wasn't a real R user because the most complicated stats I calculated then, and still calculate now, were descriptive stats. 
 
-But eventually I realized that R isn't just about stats. Or, more precisely, R can do more than just complicated statistical techniques. Eventually, I learned to use R for things like data visualization, reproducible reporting, map making, and much more. R became my Swiss Army knife, enabling me to do anything I needed to with data.
+But eventually I realized that R isn't just about stats. Or, more precisely, R can do more than just complicated statistical techniques. Eventually, I learned to use R for things like data visualization, reproducible reporting, making maps, and much more. R became my Swiss Army knife, enabling me to do anything I needed to with data.
 
-And when I started talking with others about how I used R, they were, to my surprise, quite interested. Eventually, I came to peace with how I used R. I didn't need to do complicated statistics to be a real R user. And, in fact, even among people who do use R for complicated stats, R's capabilities as a more general purpose tool are extremely appealing. My goal today is to show you a few things that you can do with R that you may never have considered.  
+And the more I started talking with others about how I used R, they were, to my surprise, quite interested. Eventually, I came to peace with how I used R. I didn't need to do complicated statistics to be a real R user. And, in fact, even among people who do use R for complicated stats, R's capabilities as a more general purpose tool are extremely appealing. My goal today is to show you a few things that you can do with R that you may never have considered.  
 
-Now, before I get started, just one thing: not everything you hear me talk about today is going to be new to you. It's impossible to choose twenty-five things that no one in a group of this size will be familiar with. But my hope is that you come away with at least some new ideas for ways you can use R that you never previously considered. 
+Now, before I get started, just one thing: not everything you will hear me talk about today is going to be new to you. It's impossible to choose twenty-five things that no one in a group of this size will be familiar with. But my hope is that you come away with at least a few new ideas for ways you can use R that you never previously considered. 
 
 ---
 
@@ -20,9 +20,47 @@ Before you do any work in R, you need data. Let's begin by talking about ways th
 
 ## 1. Work with API packages: googlesheets4
 
-As a social scientist, I conduct a lot of surveys. Now that I use R, one of my favorite ways to conduct surveys is with Google Forms. Using Google Forms allows me to put survey responses directly into Google Sheets. And having data in Google Sheets allows me to use the {googlesheets4} package to access that data directly from R. 
+As a social scientist, I conduct a lot of surveys. Now that I use R, one of my favorite ways to conduct surveys is with Google Forms. 
 
-{googlesheets4} allows you to connect directly to a Google Sheet and pull in data from it. This means that every time a new response comes in, it just takes you rerunning your code in order to create new analysis, data viz, etc. 
+**Resources**
+- Book chapter
+
+---
+
+/assets/google-form-v2.png
+x: left
+y: top
+
+
+---
+
+/assets/google-sheet-v2.png
+x: left
+y: top
+
+Using Google Forms allows me to put survey responses directly into Google Sheets. 
+
+---
+
+
+```
+library(googlesheets4)
+
+survey_data <-
+  read_sheet(YOURSHEETURLHERE)
+```
+
+And having data in Google Sheets allows me to use the {googlesheets4} package to access that data directly from R. 
+
+---
+
+/assets/pre-survey-graph.png
+x: left
+y: top
+
+This means that every time a new response comes in, it just takes you rerunning your code in order to create new analysis, data viz, etc. 
+
+TODO: Add multiple screenshots to show responses in multiple cohorts
 
 **Resources**
 - Book chapter
@@ -31,38 +69,121 @@ As a social scientist, I conduct a lot of surveys. Now that I use R, one of my f
 
 ## 2. Work with API packages: qualtrics
 
-Another common tool for those collecting surveys is Qualtrics. And, fortunately for you, if you use Qualtrics, there is a package to bring in data directly from it. With the TODO function, you can bring in data from a Qualtrics survey, ensuring you are always working with the most up-to-date data. 
+
+---
+
+```
+library(qualtRics)
+
+survey_data <-
+  fetch_survey(surveyID = "YOURSURVEYIDHERE")
+```
+
+Another common tool for those collecting surveys is Qualtrics. And, fortunately for you, if you use Qualtrics, there is a package to bring in data directly from it. With the `fetch_survey()` function, you can bring in data from a Qualtrics survey, ensuring you are always working with the most up-to-date data. 
 
 ---
 
 ## 3. Work with API packages: tidycensus
 
-A third way that I like to connect directly to my data source is with the {tidycensus} package. I work with a lot of data from the Census Bureau and before I used R, I would spend hours on the Census Bureau website, finding the data I needed, downloading it, and then working with it in Excel. But with the {tidycensus} package, I can connect directly to the Census Bureau, pulling in data on command. 
+A third way that I like to connect directly to my data source is with the {tidycensus} package. I work with a lot of data from the Census Bureau. 
+
+---
+
+
+/assets/census-bureau-website.png
+x: left
+y: top
+
+Before I used R, I would spend hours on the Census Bureau website, finding the data I needed, downloading it, and then working with it in Excel. 
+
+---
+
+But with the {tidycensus} package, I can connect directly to the Census Bureau, pulling in data on command. 
 
 This approach has proven particularly helpful in my work on the annual Oregon by the Numbers report, which relies heavily on data from the American Community Survey. 
 
 TODO: Add code showing creation of population density map
 
+---
+
+## 4. Work with APIs directly with {httr2}
+
+Under the hood, the {googlesheets4}, {qualtRics}, and {tidycensus} packages connect to data sources through APIs. Fortunately for us, they hide the often complicated work of accessing data through APIs. Unfortunately for us, there are times when we need to access data available through APIs, but without a wrapper package to simplify the process. In this case, the {httr2} package enables us to connect directly with APIs. 
 
 ---
 
-## 4. Work with APIs directly with httr2
+/assets/dashboard.png
+x: left
+y: top
 
-Under the hood, the {googlesheets4}, {qualtRics}, and {tidycensus} packages connect to data sources through APIs. Fortunately for us, they hide the often complicated work of accessing data through APIs. Unfortunately for us, there are times when we need to access data available through APIs, but without a wrapper package to simplify the process. 
+For example, I have an internal dashboard I use to pull in data from multiple sources. 
 
-In this case, the {httr2} package enables us to connect directly with APIs. For example, I 
+---
 
-TODO: Add example from dashboard (CK?)
+```
+fathom_api_key <- Sys.getenv("FATHOM_API_KEY")
+
+request("https://api.usefathom.com/v1/aggregations") |>
+    req_url_query(
+      entity = "pageview",
+      aggregates = "visits,uniques,pageviews",
+      field_grouping = "pathname",
+      date_grouping = "month",
+      sort_by = "visits:desc",
+      limit = 1000
+    ) |>
+    req_headers(
+      Authorization = str_glue("Bearer {fathom_api_key}")
+    ) |>
+    req_perform()
+```
+
+Since few of these tools have dedicated R packages, I write code to connect to them directly. 
+
 
 ---
 
 ## 5. Scrape data with {rvest}
 
-There are other times when we want to access data and is there is no package to access it, nor is there an API to enable us to connect to the data source. In this case, we often need to scrape data from webpages. 
+There are other times when we want to access data and is there is no package to access it, nor is there an API to enable us to connect to the data source. In this case, we often need to scrape data from webpages. The {rvest} package is your friend in this case. 
 
-The {rvest} package is your friend in this case. 
+---
 
-TODO: Add example
+/assets/world-cup-finals.png
+x: left
+y: top
+
+
+
+---
+
+```
+library(tidyverse)
+library(rvest)
+
+read_html("https://en.wikipedia.org/wiki/List_of_FIFA_World_Cup_finals") |>
+  html_elements("table") |>
+  pluck(4) |>
+  html_table()
+```
+
+---
+
+```
+# A tibble: 23 × 8
+    Year Winners      Score        `Runners-up`   Venue                       Location               Attendance Ref.    
+   <int> <chr>        <chr>        <chr>          <chr>                       <chr>                  <chr>      <chr>   
+ 1  1930 Uruguay      4–2          Argentina      Estadio Centenario          Montevideo, Uruguay    68,346     [7][8]  
+ 2  1934 Italy        2–1 (a.e.t.) Czechoslovakia Stadio Nazionale PNF        Rome, Italy            55,000     [9][10] 
+ 3  1938 Italy        4–2          Hungary        Stade Olympique de Colombes Paris, France          45,000     [11][12]
+ 4  1950 Uruguay      2–1[n 3]     Brazil         Maracanã Stadium            Rio de Janeiro, Brazil 173,850    [13][14]
+ 5  1954 West Germany 3–2          Hungary        Wankdorf Stadium            Bern, Switzerland      62,500     [15][16]
+ 6  1958 Brazil       5–2          Sweden         Råsunda Stadium             Solna, Sweden          49,737     [17][18]
+ 7  1962 Brazil       3–1          Czechoslovakia Estadio Nacional            Santiago, Chile        68,679     [19][20]
+ 8  1966 England      4–2 (a.e.t.) West Germany   Wembley Stadium             London, England        96,924     [21][22]
+ 9  1970 Brazil       4–1          Italy          Estadio Azteca              Mexico City, Mexico    107,412    [23][24]
+10  1974 West Germany 2–1          Netherlands    Olympiastadion              Munich, West Germany   78,200     [25][26]
+```
 
 ---
 
@@ -74,14 +195,17 @@ TODO: Add example
 
 If you make plots in ggplot (and if you're here, I'm guessing you do), keeping them consistent and on brand can be challenging. Fortunately, this is where themes come in. If you've never tried to make your own ggplot theme, you should! It's surprisingly simple and with a few lines of code you can ensure that all of your plots are on brand.
 
+
+
 **Resources**
 - Jadey blog post
 - Book chapter
+
 ---
 
 ## 7. Make interactive data viz with {ggiraph}
 
-One thing that I'm guessing everyone here has done is made data visualization with ggplot. What if I told you that you could turn your static plots into interactive plots with just a few lines of code? That's exactly what I do with the {ggiraph} package.
+What if I told you that you could turn your static plots into interactive plots with just a few lines of code? That's exactly what I do with the {ggiraph} package.
 
 TODO: Add code example
 
@@ -93,7 +217,7 @@ TODO: Add code example
 
 ## 8. Make maps
 
-R is renowned for its graph-making capabilities. Did you know that you can use ggplot, that same package you use to make graphs, to make maps. There is a special geom (`geom_sf()`) that allows you to make maps. And everything you have learned about ggplot applies to maps too: color and fill scales, themes, and more.
+R is renowned for its graph-making capabilities. Did you know that you can use ggplot, that same package you use to make graphs, to make maps? There is a special geom (`geom_sf()`) that allows you to make maps. And everything you have learned about ggplot applies to maps too: color and fill scales, themes, and more.
 
 **Resources**
 - Book chapter
@@ -125,7 +249,7 @@ TODO: Come up with story
 
 ## 11. Make wide range of outputs with Quarto
 
-When I teach people to use Quarto, I always start with simple outputs: single HTML files, PDFs, and Word documents. But Quarto can make way more than just those. You can build a full website with Quarto, a dashboard, slides, and much more. 
+When I teach people to use Quarto, I always start with simple outputs: single HTML files, PDFs, and Word documents. But Quarto can go beyond single documents. You can build a full website with Quarto, a dashboard, slides, and much more. 
 
 ---
 
@@ -179,7 +303,7 @@ In 2020, at the start of the COVID pandemic, we were working with Prosper Portla
 
 ## 17. Using GitHub Actions to run code on a schedule (e.g. Prosper Portland)
 
-When I talked about the daily reports we created for Prosper Portland, I committed one key thing: once we set up the code, we never ran it manually. How did we run the code to pull in the data, render the reports, and email them to Prosper Portland? With GitHub Actions. If you've never heard of GitHub Actions, it's a tool that runs code on your behalf. You add a special YAML file to your GitHub repo and your code runs on a schedule. Magic!
+When I talked about the daily reports we created for Prosper Portland, I left out one key thing: once we set up the code, we never ran it manually. How did we run the code to pull in the data, render the reports, and email them to Prosper Portland? With GitHub Actions. If you've never heard of GitHub Actions, it's a tool that runs code on your behalf. You add a special YAML file to your GitHub repo and your code runs on a schedule. Magic!
 
 TODO: Show YAML file: https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/.github/workflows/email_report.yaml
 
@@ -195,6 +319,7 @@ Speaking of automation, I often have to move files around. For example, when wor
 
 **Resources**
 - 250 plots blog post
+- https://albert-rapp.de/posts/36_fs_package/
 
 ---
 
@@ -289,9 +414,9 @@ I've now given you 24 things that you perhaps didn't know you could do with R. A
 
 When I started learning R, I never expected to find such a strong, welcoming community. But that's exactly what I've found. R has technical power, sure. But it also has the ability to bring a wide range of people together on a beautiful Saturday to sit all day in an air conditioned room.
 
-You may not have ever considered it, but R can help you find your community. As you learn from others today, I hope that you will also learn about others as well. 
+You may not have ever considered it, but R can help you find your community. As you learn from others today, I hope that you will consider giving back to maintain and improve the wonderful R community that we all gain so much from. 
 
-If I, a qualitative researcher who, for so long, though of myself as not being a "real" user can come to speak to you today, TODO: Add more
+That I, a qualitative researcher who, for so long, thought of myself as not being a "real" user am up here today is in no small part because of the encouragement I have received from the R community. It may be a technical tool that brings us together in the first place, but it is the community that keeps us together in the long run. 
 
 ---
 

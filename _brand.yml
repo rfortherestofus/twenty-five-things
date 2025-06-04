@@ -1,0 +1,22 @@
+meta:
+  name: R for the Rest of Us
+  link: https://rfortherestofus.com
+
+color:
+  palette:
+    dark-blue: "#404e6b"
+    blue: "#6cabdd"
+    orange: "#ff7400"
+  foreground: dark-blue
+  primary: blue
+  warning: orange
+
+typography:
+  fonts:
+    - family: Inter Tight
+      source: google
+    - family: IBM Plex Mono
+      source: google
+  base: Inter
+  headings: Inter
+  monospace: IBM Plex Mono

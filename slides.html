@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.43">
+
+  <title>Twenty-Five Things You Didn’t Know You Could Do with R</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-5bc63d895939ff8e160eb16d8edf65d8.css">
+  <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Twenty-Five Things You Didn’t Know You Could Do with R</h1>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section>
+<section id="twenty-five-things-you-didnt-know-you-could-do-with-r" class="title-slide slide level1 inverse center">
+<h1>Twenty-Five Things You Didn’t Know You Could Do with R</h1>
+<aside class="notes">
+<p>Hi, I’m David Keyes and I run R for the Rest of Us. I’m excited to be here today and to talk with you about doing things in R you didn’t know you could do. Twenty-five things to be precise.</p>
+<p>I find it ironic in many ways that I am up here talking to you about unique ways to use R. I say that because for a long time I didn’t feel like a “real” R user. You see, I don’t come from a typical R background. I’m a qualitative researcher with a PhD in anthropology. I don’t have advanced training in statistics. When I started using R I felt like I wasn’t a real R user because the most complicated stats I calculated then, and still calculate now, were descriptive stats.</p>
+<p>But eventually I realized that R isn’t just about stats. Or, more precisely, R can do more than just complicated statistical techniques. Eventually, I learned to use R for things like data visualization, reproducible reporting, making maps, and much more. R became my Swiss Army knife, enabling me to do anything I needed to with data.</p>
+<p>And the more I started talking with others about how I used R, they were, to my surprise, quite interested. Eventually, I came to peace with how I used R. I didn’t need to do complicated statistics to be a real R user. And, in fact, even among people who do use R for complicated stats, R’s capabilities as a more general purpose tool are extremely appealing. My goal today is to show you a few things that you can do with R that you may never have considered.</p>
+<p>Now, before I get started, just one thing: not everything you will hear me talk about today is going to be new to you. It’s impossible to choose twenty-five things that no one in a group of this size will be familiar with. But my hope is that you come away with at least a few new ideas for ways you can use R that you never previously considered.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="accessing-data" class="title-slide slide level1 center">
+<h1>Accessing Data</h1>
+<aside class="notes">
+<p>Before you do any work in R, you need data. Let’s begin by talking about ways that you can access data directly from R.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="work-with-api-packages-googlesheets4" class="slide level2">
+<h2>1. Work with API packages: googlesheets4</h2>
+<aside class="notes">
+<p>As a social scientist, I conduct a lot of surveys. Now that I use R, one of my favorite ways to conduct surveys is with Google Forms.</p>
+<p><strong>Resources</strong> - Book chapter</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="assets/google-form-v2.png" class="r-stretch quarto-figure quarto-figure-center"></section>
+<section class="slide level2">
+
+
+<img data-src="assets/google-sheet-v2.png" class="r-stretch quarto-figure quarto-figure-center"><aside class="notes">
+<p>Using Google Forms allows me to put survey responses directly into Google Sheets.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="r-fit-text center">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>survey_data <span class="ot">&lt;-</span></span>
+<span id="cb1-2"><a href=""></a>  googlesheets4<span class="sc">::</span><span class="fu">read_sheet</span>(YOURSHEETURLHERE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+</div>
+<aside class="notes">
+<p>And having data in Google Sheets allows me to use the {googlesheets4} package to access that data directly from R.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="assets/pre-survey-graph.png" class="r-stretch quarto-figure quarto-figure-center"><aside class="notes">
+<p>This means that every time a new response comes in, it just takes you rerunning your code in order to create new analysis, data viz, etc.</p>
+<p>TODO: Add multiple screenshots to show responses in multiple cohorts</p>
+<p><strong>Resources</strong> - Book chapter</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="work-with-api-packages-qualtrics" class="slide level2">
+<h2>2. Work with API packages: qualtrics</h2>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>survey_data <span class="ot">&lt;-</span></span>
+<span id="cb2-2"><a href=""></a>  qualtRics<span class="sc">::</span><span class="fu">fetch_survey</span>(<span class="at">surveyID =</span> <span class="st">"YOURSURVEYIDHERE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+<aside class="notes">
+<p>Another common tool for those collecting surveys is Qualtrics. And, fortunately for you, if you use Qualtrics, there is a package to bring in data directly from it. With the <code>fetch_survey()</code> function, you can bring in data from a Qualtrics survey, ensuring you are always working with the most up-to-date data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="work-with-api-packages-tidycensus" class="slide level2">
+<h2>3. Work with API packages: tidycensus</h2>
+<aside class="notes">
+<p>A third way that I like to connect directly to my data source is with the {tidycensus} package. I work with a lot of data from the Census Bureau.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="./assets/census-bureau-website.png" class="r-stretch quarto-figure quarto-figure-center"><aside class="notes">
+<p>Before I used R, I would spend hours on the Census Bureau website, finding the data I needed, downloading it, and then working with it in Excel.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>tidycensus<span class="sc">::</span><span class="fu">get_acs</span>(</span>
+<span id="cb3-2"><a href=""></a>    <span class="at">state =</span> <span class="st">"OR"</span>,</span>
+<span id="cb3-3"><a href=""></a>    <span class="at">geography =</span> <span class="st">"place"</span>,</span>
+<span id="cb3-4"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-5"><a href=""></a>    <span class="at">variables =</span> <span class="st">"B01003_001"</span></span>
+<span id="cb3-6"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 426 features and 5 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -124.5125 ymin: 41.99277 xmax: -116.9354 ymax: 46.20566
+Geodetic CRS:  NAD83
+First 10 features:
+     GEOID                      NAME   variable estimate moe
+1  4149600       Monroe city, Oregon B01003_001      853 272
+2  4181300      Wheeler city, Oregon B01003_001      429 137
+3  4150050       Mosier city, Oregon B01003_001      630 262
+4  4176250        Unity city, Oregon B01003_001       37  20
+5  4133250        Helix city, Oregon B01003_001      358 185
+6  4149150     Mitchell city, Oregon B01003_001      202 107
+7  4161700     Richland city, Oregon B01003_001      199  74
+8  4129950    Gold Hill city, Oregon B01003_001     1261 270
+9  4153150 North Plains city, Oregon B01003_001     3365  43
+10 4104000       Barlow city, Oregon B01003_001      157 105
+                         geometry
+1  MULTIPOLYGON (((-123.3067 4...
+2  MULTIPOLYGON (((-123.9055 4...
+3  MULTIPOLYGON (((-121.4047 4...
+4  MULTIPOLYGON (((-118.1944 4...
+5  MULTIPOLYGON (((-118.6616 4...
+6  MULTIPOLYGON (((-120.1641 4...
+7  MULTIPOLYGON (((-117.1722 4...
+8  MULTIPOLYGON (((-123.0729 4...
+9  MULTIPOLYGON (((-123.0114 4...
+10 MULTIPOLYGON (((-122.7278 4...</code></pre>
+</div>
+</div>
+<aside class="notes">
+<p>But with the {tidycensus} package, I can connect directly to the Census Bureau, pulling in data on command.</p>
+<p>This approach has proven particularly helpful in my work on the annual Oregon by the Numbers report, which relies heavily on data from the American Community Survey.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="work-with-apis-directly-with-httr2" class="slide level2">
+<h2>4. Work with APIs directly with {httr2}</h2>
+<aside class="notes">
+<p>Under the hood, the {googlesheets4}, {qualtRics}, and {tidycensus} packages connect to data sources through APIs. Fortunately for us, they hide the often complicated work of accessing data through APIs. Unfortunately for us, there are times when we need to access data available through APIs, but without a wrapper package to simplify the process. In this case, the {httr2} package enables us to connect directly with APIs.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="./assets/dashboard.png" class="r-stretch quarto-figure quarto-figure-center"><aside class="notes">
+<p>For example, I have an internal dashboard I use to pull in data from multiple sources.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>fathom_api_key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"FATHOM_API_KEY"</span>)</span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a>httr2<span class="sc">::</span><span class="fu">request</span>(<span class="st">"https://api.usefathom.com/v1/aggregations"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href=""></a>    httr2<span class="sc">::</span><span class="fu">req_url_query</span>(</span>
+<span id="cb5-5"><a href=""></a>      <span class="at">entity =</span> <span class="st">"pageview"</span>,</span>
+<span id="cb5-6"><a href=""></a>      <span class="at">aggregates =</span> <span class="st">"visits,uniques,pageviews"</span>,</span>
+<span id="cb5-7"><a href=""></a>      <span class="at">field_grouping =</span> <span class="st">"pathname"</span>,</span>
+<span id="cb5-8"><a href=""></a>      <span class="at">date_grouping =</span> <span class="st">"month"</span>,</span>
+<span id="cb5-9"><a href=""></a>      <span class="at">sort_by =</span> <span class="st">"visits:desc"</span>,</span>
+<span id="cb5-10"><a href=""></a>      <span class="at">limit =</span> <span class="dv">1000</span></span>
+<span id="cb5-11"><a href=""></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb5-12"><a href=""></a>    httr2<span class="sc">::</span><span class="fu">req_headers</span>(</span>
+<span id="cb5-13"><a href=""></a>      <span class="at">Authorization =</span> <span class="fu">str_glue</span>(<span class="st">"Bearer {fathom_api_key}"</span>)</span>
+<span id="cb5-14"><a href=""></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb5-15"><a href=""></a>    httr2<span class="sc">::</span><span class="fu">req_perform</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+<aside class="notes">
+<p>Since few of these tools have dedicated R packages, I write code to connect to them directly.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="scrape-data-with-rvest" class="slide level2">
+<h2>5. Scrape data with {rvest}</h2>
+<aside class="notes">
+<p>There are other times when we want to access data and is there is no package to access it, nor is there an API to enable us to connect to the data source. In this case, we often need to scrape data from webpages. The {rvest} package is your friend in this case.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="./assets/world-cup-finals.png" class="r-stretch quarto-figure quarto-figure-center"></section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>rvest<span class="sc">::</span><span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/List_of_FIFA_World_Cup_finals"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href=""></a>  rvest<span class="sc">::</span><span class="fu">html_elements</span>(<span class="st">"table"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href=""></a>  purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="dv">4</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href=""></a>  rvest<span class="sc">::</span><span class="fu">html_table</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Ref.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 7
+    Year Winners      Score        `Runners-up`   Venue      Location Attendance
+   &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     
+ 1  1930 Uruguay      4–2          Argentina      Estadio C… Montevi… 68,346    
+ 2  1934 Italy        2–1 (a.e.t.) Czechoslovakia Stadio Na… Rome, I… 55,000    
+ 3  1938 Italy        4–2          Hungary        Stade Oly… Paris, … 45,000    
+ 4  1950 Uruguay      2–1[n 3]     Brazil         Maracanã … Rio de … 173,850   
+ 5  1954 West Germany 3–2          Hungary        Wankdorf … Bern, S… 62,500    
+ 6  1958 Brazil       5–2          Sweden         Råsunda S… Solna, … 49,737    
+ 7  1962 Brazil       3–1          Czechoslovakia Estadio N… Santiag… 68,679    
+ 8  1966 England      4–2 (a.e.t.) West Germany   Wembley S… London,… 96,924    
+ 9  1970 Brazil       4–1          Italy          Estadio A… Mexico … 107,412   
+10  1974 West Germany 2–1          Netherlands    Olympiast… Munich,… 78,200    
+# ℹ 13 more rows</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="data-viz" class="title-slide slide level1 center">
+<h1>Data Viz</h1>
+
+</section>
+<section id="make-a-custom-ggplot-theme" class="slide level2">
+<h2>6. Make a custom ggplot theme</h2>
+<aside class="notes">
+<p>If you make plots in ggplot (and if you’re here, I’m guessing you do), keeping them consistent and on brand can be challenging. Fortunately, this is where themes come in. If you’ve never tried to make your own ggplot theme, you should! It’s surprisingly simple and with a few lines of code you can ensure that all of your plots are on brand.</p>
+<p><strong>Resources</strong> - Jadey blog post - Book chapter</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="./assets/penguins_bar_chart%203.png" class="r-stretch quarto-figure quarto-figure-center"></section>
+<section class="slide level2">
+
+<div class="r-fit-text">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>theme_dk <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">base_family =</span> <span class="st">"Inter Tight"</span>, <span class="at">base_size =</span> <span class="dv">14</span>) {</span>
+<span id="cb8-2"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>(<span class="at">base_size =</span> base_size, <span class="at">base_family =</span> base_family) <span class="sc">+</span></span>
+<span id="cb8-3"><a href=""></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(</span>
+<span id="cb8-4"><a href=""></a>      <span class="at">panel.grid.minor =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb8-5"><a href=""></a>      <span class="at">panel.grid.major =</span> ggplot2<span class="sc">::</span><span class="fu">element_line</span>(</span>
+<span id="cb8-6"><a href=""></a>        <span class="at">color =</span> <span class="st">"grey90"</span>,</span>
+<span id="cb8-7"><a href=""></a>        <span class="at">linewidth =</span> <span class="fl">0.5</span>,</span>
+<span id="cb8-8"><a href=""></a>        <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb8-9"><a href=""></a>      ),</span>
+<span id="cb8-10"><a href=""></a>      <span class="at">axis.text =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(</span>
+<span id="cb8-11"><a href=""></a>        <span class="at">color =</span> <span class="st">"grey50"</span></span>
+<span id="cb8-12"><a href=""></a>      ),</span>
+<span id="cb8-13"><a href=""></a>      ETC</span>
+<span id="cb8-14"><a href=""></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="./assets/penguins_bar_chart-with-theme%201.png" class="r-stretch quarto-figure quarto-figure-center"></section>
+<section id="theme_set" class="slide level2">
+<h2>7. theme_set()</h2>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href=""></a><span class="in">```</span></span>
+<span id="cb9-2"><a href=""></a><span class="in">title: "Penguins Report"</span></span>
+<span id="cb9-3"><a href=""></a><span class="in">```</span></span>
+<span id="cb9-4"><a href=""></a></span>
+<span id="cb9-5"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb9-6"><a href=""></a><span class="in">theme_dk &lt;- function(base_family = "Inter Tight", base_size = 14) {}</span></span>
+<span id="cb9-7"><a href=""></a><span class="in">```</span></span>
+<span id="cb9-8"><a href=""></a></span>
+<span id="cb9-9"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb9-10"><a href=""></a><span class="in">theme_set(theme_dk())</span></span>
+<span id="cb9-11"><a href=""></a><span class="in">```</span></span>
+<span id="cb9-12"><a href=""></a></span>
+<span id="cb9-13"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb9-14"><a href=""></a><span class="in">penguins_bar_chart</span></span>
+<span id="cb9-15"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="./assets//assets/penguins_bar_chart-with-theme%201.png" class="r-stretch quarto-figure quarto-figure-center"></section>
+<section id="use-update_geom_defaults" class="slide level2">
+<h2>8. Use update_geom_defaults()</h2>
+<aside class="notes">
+<p>Creating a theme is a great way to handle the look and feel of things like titles, axis text, grid lines, etc. What themes do not change is text added through geoms.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<p>TODO: Add theme_dk actual code above</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>penguins_bar_chart <span class="sc">+</span></span>
+<span id="cb10-2"><a href=""></a>  <span class="fu">theme_dk</span>(<span class="at">base_family =</span> <span class="st">"IBM Plex Mono"</span>, <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(</span>
+<span id="cb10-4"><a href=""></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">label =</span> avg_bill_length_formatted),</span>
+<span id="cb10-5"><a href=""></a>    <span class="at">vjust =</span> <span class="fl">1.5</span>,</span>
+<span id="cb10-6"><a href=""></a>    <span class="at">color =</span> <span class="st">"white"</span></span>
+<span id="cb10-7"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+<aside class="notes">
+<p>So, let’s say you want to use <code>geom_text()</code> to add labels to your plot. See here how I’ve added a layer to my plot to add labels that show the average bill length. You’ll also see that I’ve changed the font in my theme to be IBM Plex Mono just to make it more obvious.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+
+<img data-src="./assets/penguins_bar_chart-mono.png" class="r-stretch quarto-figure quarto-figure-center"><aside class="notes">
+<p>When I run my code I get a plot that uses IBM Plex Mono everywhere except where <code>geom_text()</code> added labels.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>penguins_bar_chart <span class="sc">+</span></span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">theme_dk</span>(<span class="at">base_family =</span> <span class="st">"IBM Plex Mono"</span>, <span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(</span>
+<span id="cb11-4"><a href=""></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">label =</span> avg_bill_length_formatted),</span>
+<span id="cb11-5"><a href=""></a>    <span class="at">vjust =</span> <span class="fl">1.5</span>,</span>
+<span id="cb11-6"><a href=""></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb11-7"><a href=""></a>    <span class="at">family =</span> <span class="st">"IBM Plex Mono"</span></span>
+<span id="cb11-8"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+<aside class="notes">
+<p>The way most people change this is by adding <code>family = "IBM Plex Mono"</code> within <code>geom_text()</code>. This is fine to do in one or two charts, but say you’re making an entire report with dozens of charts. You don’t want to have to add <code>family = "IBM Plex Mono"</code> dozens of times. The way around this is with the <code>update_geom_defaults()</code> function. This function lets you set defaults for various geoms.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>ggplot2<span class="sc">::</span><span class="fu">update_geom_defaults</span>(</span>
+<span id="cb12-2"><a href=""></a>  <span class="at">geom =</span> <span class="st">"text"</span>,</span>
+<span id="cb12-3"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb12-4"><a href=""></a>    <span class="at">family =</span> <span class="st">"IBM Plex Mono"</span></span>
+<span id="cb12-5"><a href=""></a>  )</span>
+<span id="cb12-6"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+<aside class="notes">
+<p>Here, for example, you can set the default family for all geom_text() instances to be IBM Plex Mono. Just put this code at the top of your R script or Quarto document and all of your charts will use IBM Plex Mono everywhere.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="maps" class="title-slide slide level1 center">
+<h1>Maps</h1>
+
+</section>
+<section id="make-maps" class="slide level2">
+<h2>9. Make maps</h2>
+<aside class="notes">
+<p>R is renowned for its graph-making capabilities. Did you know that you can use ggplot, that same package you use to make graphs, to make maps? There is a special geom (geom_sf()) that allows you to make maps. And everything you have learned about ggplot applies to maps too: color and fill scales, themes, and more.</p>
+<p><strong>Resources</strong> - Book chapter - Course</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>median_income_by_county <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href=""></a>  tidycensus<span class="sc">::</span><span class="fu">get_acs</span>(</span>
+<span id="cb13-3"><a href=""></a>    <span class="at">geography =</span> <span class="st">"county"</span>,</span>
+<span id="cb13-4"><a href=""></a>    <span class="at">variables =</span> <span class="fu">c</span>(<span class="at">median_income =</span> <span class="st">"B19013_001"</span>),</span>
+<span id="cb13-5"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-6"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>median_income_by_county</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 3222 features and 5 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -179.1467 ymin: 17.88328 xmax: 179.7785 ymax: 71.38782
+Geodetic CRS:  NAD83
+First 10 features:
+   GEOID                           NAME      variable estimate   moe
+1  01069        Houston County, Alabama median_income    55064  1412
+2  01023        Choctaw County, Alabama median_income    43299  8544
+3  01005        Barbour County, Alabama median_income    39712  3289
+4  01107        Pickens County, Alabama median_income    45339  2865
+5  01033        Colbert County, Alabama median_income    56149  3200
+6  04012         La Paz County, Arizona median_income    46634  2584
+7  04001         Apache County, Arizona median_income    37483  3091
+8  05081  Little River County, Arkansas median_income    58627 11485
+9  05121      Randolph County, Arkansas median_income    45993  4649
+10 06037 Los Angeles County, California median_income    83411   439
+                         geometry
+1  MULTIPOLYGON (((-85.71209 3...
+2  MULTIPOLYGON (((-88.47323 3...
+3  MULTIPOLYGON (((-85.74803 3...
+4  MULTIPOLYGON (((-88.34043 3...
+5  MULTIPOLYGON (((-88.13925 3...
+6  MULTIPOLYGON (((-114.7312 3...
+7  MULTIPOLYGON (((-110.0007 3...
+8  MULTIPOLYGON (((-94.48558 3...
+9  MULTIPOLYGON (((-91.40687 3...
+10 MULTIPOLYGON (((-118.6044 3...</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>median_income_by_county <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href=""></a>  tigris<span class="sc">::</span><span class="fu">shift_geometry</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">fill =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_sf</span>(<span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">scale_fill_viridis_c</span>(</span>
+<span id="cb16-6"><a href=""></a>    <span class="at">option =</span> <span class="st">"B"</span>,</span>
+<span id="cb16-7"><a href=""></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>(),</span>
+<span id="cb16-8"><a href=""></a>    <span class="at">name =</span> <span class="cn">NULL</span></span>
+<span id="cb16-9"><a href=""></a>  ) <span class="sc">+</span></span>
+<span id="cb16-10"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="do-geospatial-data-analysis-e.g.-meijer-stores-example" class="slide level2">
+<h2>10. Do geospatial data analysis (e.g.&nbsp;Meijer stores example)</h2>
+<aside class="notes">
+<p>It’s not just mapping that you can do in R. If you need to do geospatial analysis in R, that’s very possible! While many people think of tools like ArcGIS for geospatial analysis, R is a fully-fledged GIS tool. A client we work with recently asked me to do an analysis of SNAP-Ed program sites within 5 miles of grocery stores. With just a few lines of code, I was able to tell her the sites that met this criteria. This is just one example of how you can use R for geospatial analysis.</p>
+<p><strong>Reference</strong> https://github.com/MichiganFitnessFoundation/mff-r-training/issues/74</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">library</span>(sf)</span>
+<span id="cb17-2"><a href=""></a>libraries <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"data/libraries.geojson"</span>)</span>
+<span id="cb17-3"><a href=""></a></span>
+<span id="cb17-4"><a href=""></a>libraries_one_mile_buffer <span class="ot">&lt;-</span></span>
+<span id="cb17-5"><a href=""></a>  libraries <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href=""></a>  <span class="fu">st_buffer</span>(<span class="dv">1</span> <span class="sc">*</span> <span class="fl">1609.34</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>pps_elementary_schools <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">read_sf</span>(<span class="st">"data/pps_elementary_schools.geojson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>portland_boundaries <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"data/portland_boundaries.geojson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>pps_elementary_schools_near_libraries <span class="ot">&lt;-</span></span>
+<span id="cb20-2"><a href=""></a>  pps_elementary_schools <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href=""></a>  <span class="fu">st_join</span>(libraries_one_mile_buffer) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">has_nearby_library =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(NAME), <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb20-5"><a href=""></a>  <span class="fu">select</span>(school, has_nearby_library)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>pps_elementary_schools_near_libraries <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href=""></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-3"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> portland_boundaries) <span class="sc">+</span></span>
+<span id="cb21-4"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">color =</span> has_nearby_library)) <span class="sc">+</span></span>
+<span id="cb21-5"><a href=""></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-19-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="reporting" class="title-slide slide level1 center">
+<h1>Reporting</h1>
+<aside class="notes">
+<p>Whatever else you do in R, you need to report your results. As a tool designed for reproducible reporting, R is, of course, incredibly well designed for this purpose. Here are some ways you can improve your reporting in R.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="make-wide-range-of-outputs-with-quarto" class="slide level2">
+<h2>11. Make wide range of outputs with Quarto</h2>
+<aside class="notes">
+<p>When I teach people to use Quarto, I always start with simple outputs: single HTML files, PDFs, and Word documents. But Quarto can go beyond single documents. You can build a full website with Quarto, a dashboard, slides, and much more.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<p>TODO: Show doc</p>
+</section>
+<section class="slide level2">
+
+<p>TODO: Show slides</p>
+</section>
+<section class="slide level2">
+
+<p>TODO: Show website</p>
+</section>
+<section id="brand.yml" class="slide level2">
+<h2>12. brand.yml</h2>
+<aside class="notes">
+<p>A recent addition to the Quarto landscape is brand.yml. This framework allows you to add a single file, <code>_brand.yml</code>, to your project which lets you specify things like fonts, colors, logos, and more. Keeping your Quarto documents on brand has never been easier!</p>
+<p><strong>Resources</strong> - brand.yml website - Podcast with Garrick</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+<p>TODO: Show brand.yml file</p>
+</section>
+<section class="slide level2">
+
+<p>TODO: Show doc that uses brand.yml</p>
+</section>
+<section class="slide level2">
+
+<p>TODO: Show slides that use brand.yml</p>
+</section>
+<section class="slide level2">
+
+<p>TODO: Show website that uses brand.yml</p>
+</section>
+<section id="publish-websites-online-with-netlify" class="slide level2">
+<h2>13. Publish websites online with Netlify</h2>
+<aside class="notes">
+<p>Creating reports in Quarto is just the first step. You also need to share them. If you render to some type of HTML output (this can be HTML files, websites, dashboards, slides, and more), you can publish them online. My favorite tool to do this is Netlify. Connect your GitHub repo to Netlify and every time you push updates they will show up online.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="make-multiple-websites-for-stakeholders-like-mff-did" class="slide level2">
+<h2>14. Make multiple websites for stakeholders (like MFF did)</h2>
+<aside class="notes">
+<p>Making a website with Quarto is pretty cool. Making many websites with Quarto is very cool. A client I worked with needed to create separate websites for various organizations they work with. They created a website template and then wrote code to render it multiple times, creating a website for each organization.</p>
+<p>TODO: Clarify details (was it survey?)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="make-pdfs-with-typst" class="slide level2">
+<h2>15. Make PDFs with typst</h2>
+<aside class="notes">
+<p>Most people, when they think about making PDFs in Quarto, immediately think Latex. If this is enough to put you off from making PDFs in R, please know there is a new alternative. Known as typst, it is a modern reimagining of Latex.</p>
+<p><strong>Resources</strong> - My talk</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="automation" class="title-slide slide level1 center">
+<h1>Automation</h1>
+
+</section>
+<section id="use-the-gmailr-or-blastula-package-to-send-reports-to-stakeholders-e.g.-how-we-did-this-for-prosper-portland" class="slide level2">
+<h2>16. Use the {gmailr} or {blastula} package to send reports to stakeholders (e.g.&nbsp;how we did this for Prosper Portland)</h2>
+<aside class="notes">
+<p>In 2020, at the start of the COVID pandemic, we were working with Prosper Portland, the small business development agency for the city of Portland. They had quickly started a grant program for businesses impacted by the pandemic. It was, like so much in those early days of COVID, thrown together quickly. They set up an application form and they wanted an easy way to see a summary of information about businesses seeking relief. We wrote code to pull data from a Google Sheet and create a summary report. And, best of all, we set it up to email the report directly to Prosper Portland staff using the {gmailr} package.</p>
+<p><strong>Resources</strong> - https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/render_gmail.R - https://pkgs.rstudio.com/blastula/</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="using-github-actions-to-run-code-on-a-schedule-e.g.-prosper-portland" class="slide level2">
+<h2>17. Using GitHub Actions to run code on a schedule (e.g.&nbsp;Prosper Portland)</h2>
+<aside class="notes">
+<p>In 2020, at the start of the COVID pandemic, we were working with Prosper Portland, the small business development agency for the city of Portland. They had quickly started a grant program for businesses impacted by the pandemic. It was, like so much in those early days of COVID, thrown together quickly. They set up an application form and they wanted an easy way to see a summary of information about businesses seeking relief. We wrote code to pull data from a Google Sheet and create a summary report. And, best of all, we set it up to email the report directly to Prosper Portland staff using the {gmailr} package.</p>
+<p><strong>Resources</strong> - https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/render_gmail.R - https://pkgs.rstudio.com/blastula/</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="use-fs-package-to-work-with-files-e.g.-how-i-zip-and-send-all-files-to-elissa" class="slide level2">
+<h2>18. Use fs package to work with files (e.g.&nbsp;how I zip and send all files to Elissa)</h2>
+<aside class="notes">
+<p>Speaking of automation, I often have to move files around. For example, when working on the annual Oregon by the Numbers Report, I make a ton of plots that I have to share with the graphic designer who lays out the report. I used to manually copy all of these files and upload them to Google Drive. But then I came across the {fs} and {zip} packages. I use {fs} to create a list of all the files I’ve created, which I then pass to the {zip} package in order to create a zip file. And, if I’m feeling extra fancy, I upload the zip file automatically to Google Drive using the {googledrive} package. With all of this, I just have to run my code and share a single link with the designer.</p>
+<p><strong>Resources</strong> - 250 plots blog post - https://albert-rapp.de/posts/36_fs_package/</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="llms-for-coding" class="title-slide slide level1 center">
+<h1>LLMs for coding</h1>
+<aside class="notes">
+<p>Let’s finish off by talking about ways that you can use large language models when working with R. Now I’m not an AI hype boy here to tell you that this or that model will blow your mind. And, to be honest, I’m actually a bit hesitant to discuss AI at all because what I tell you today may already be out of date. That said, I think there are some foundational ways that you can use LLMs that will stand the test of time.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="set-up-a-custom-gpt-to-get-answers" class="slide level2">
+<h2>19. Set up a custom GPT to get answers</h2>
+<aside class="notes">
+<p>My initial foray into using LLMs to work with code was, as I suspect was the case for many of you, through asking ChatGPT questions. And, like many of you, I found its answers at times incredibly helpful and at other times incredibly maddening. Sometimes it would give me base R code, other times tidyverse code. What I came to realize is that I needed to give it detailed instructions on what I wanted. And the best way to do this is to create custom instructions. Now, every time I ask an R question to an LLM, I do it with the following instructions:</p>
+<blockquote>
+<p>Please answer the following R question. When I program, I always like to use the tidyverse. Please don’t ever give me base R solutions. Please also always use the native pipe (|&gt;) not the tidyverse pipe (%&gt;%).</p>
+</blockquote>
+<p>You can paste in instructions like this each time you work with your AI tool of choice. You can create custom GPTs in ChatGPT to save these custom instructions. I use a tool called Raycast for working with LLMs and it has a feature that allows me to create a custom AI prompt with these insturctions.</p>
+<p>TODO: Add screenshot of instructions</p>
+<p>Every time I have a question for AI, I call up my AI chat preset, which has my instructions embedded in it, and get out answers tailored to my desired style of coding.</p>
+<p><strong>Resources</strong> - Simon Couch interview</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="use-github-copilot-or-windsurf" class="slide level2">
+<h2>20. Use GitHub Copilot or Windsurf</h2>
+<aside class="notes">
+<p>Working with a tool like Raycast or ChatGPT requires you to go outside of your code editor. Another approach is to work with LLMs directly in your editor. If you use RStudio, you can connect directly with GitHub Copilot. If you use Positron, there are a number of extensions you can use to have LLMs interact directly with your code. Whether it’s offering suggestions on improving your code, adding new code, or asking general questions about your code, these tools can be extremely helpful.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="use-gander-package-to-get-llms-to-work-with-your-data" class="slide level2">
+<h2>21. Use {gander} package to get LLMs to work with your data</h2>
+<aside class="notes">
+<p>A few months ago, I spoke with Posit developer Simon Couch, who is working on a range of R packages to interact with LLMs. Simon has written that:</p>
+<blockquote>
+<p>Data science differs a bit from software engineering here, though, in that the state of your R environment is just as important (or more so) than the contents of your files.</p>
+</blockquote>
+<p>In our conversation, Simon explained this further, saying that, when asking a question to an LLM, it’s useful if it can see what the objects in your environment look like. The {gander} package solves this problem by passing information about your data frames alongside whatever request you make of an LLM.</p>
+<p><strong>Resources</strong> - Podcast episode - https://simonpcouch.github.io/gander/</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="llms-for-data-analysis" class="title-slide slide level1 center">
+<h1>LLMs for data analysis</h1>
+<aside class="notes">
+<p>LLMs are great for helping you write code to analyze your data. They can also do some of the data analysis for you.</p>
+<p>Now, before anything else, I have to say: please don’t rely on LLMs for mission critical analysis without manually reviewing its work. Hallucinations are real.</p>
+<p>With that said, the area I have found LLMs to be most helpful is with qualitative data. This data, which is often unstructured, is a perfect candidate for a tool that is comfortable bringing structure to messiness. Here are a few ways you can use it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="summarize-text" class="slide level2">
+<h2>22. Summarize text</h2>
+<aside class="notes">
+<p>If you’ve ever conducted a survey or simply asked an open-ended question and got more text back than you could analyze by hand, why not try using AI for a quick and dirty analysis? The {mall} package lets you take long text and summarize it down to a shorter length.</p>
+<p>TODO: Add example</p>
+<p><strong>References</strong> - https://mlverse.github.io/mall/#summarize</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="translate-text" class="slide level2">
+<h2>23. Translate text</h2>
+<aside class="notes">
+<p>The {mall} package can also translate text. If you get responses in multiple languages, you can easily translate them to English.</p>
+<p>TODO: Add examples</p>
+<p>TODO: Show translating text and then summarizing</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="create-your-own-prompt" class="slide level2">
+<h2>24. Create your own prompt</h2>
+<aside class="notes">
+<p>The {mall} package provides some great out-of-the-box prompts you can use. You can also create your own prompts. I’ve used the {ellmer} package to interact directly with LLMs.</p>
+<p>Here, for example, I created my own function using {ellmer} to identify themes from a set of survey responses.</p>
+<p>TODO: Add example</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section id="join-the-community" class="title-slide slide level1 center">
+<h1>25. Join the Community</h1>
+<aside class="notes">
+<p>I’ve now given you 24 things that you perhaps didn’t know you could do with R. All of them are technical. But I’d be remiss if I didn’t mention the one thing that you can do with R that is, in fact, the opposite of technical.</p>
+<p>When I started learning R, I never expected to find such a strong, welcoming community. But that’s exactly what I’ve found. R has technical power, sure. But it also has the ability to bring a wide range of people together on a beautiful Saturday to sit all day in an air conditioned room.</p>
+<p>You may not have ever considered it, but R can help you find your community. As you learn from others today, I hope that you will consider giving back to maintain and improve the wonderful R community that we all gain so much from.</p>
+<p>That I, a qualitative researcher who, for so long, thought of myself as not being a “real” user am up here today is in no small part because of the encouragement I have received from the R community. It may be a technical tool that brings us together in the first place, but it is the community that keeps us together in the long run.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

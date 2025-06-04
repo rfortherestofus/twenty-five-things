@@ -1,0 +1,94 @@
+---
+title: "Penguins Report"
+execute: 
+  warning: false
+  message: false
+format: gfm
+---
+
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+library(scales)
+```
+
+```{r}
+#| echo: false
+theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
+  theme_minimal(
+    base_size = base_size,
+    base_family = base_family
+  ) +
+    theme(
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(
+        color = "grey90",
+        linewidth = 0.5,
+        linetype = "dashed"
+      ),
+      axis.ticks = element_blank(),
+      axis.text = element_text(
+        color = "grey50",
+        size = rel(0.8)
+      ),
+      axis.title = element_blank(),
+      plot.title.position = "plot",
+      plot.title = element_text(
+        face = "bold",
+        size = rel(1.5)
+      ),
+      plot.subtitle = element_text(
+        color = "grey40",
+        size = rel(1.1)
+      ),
+      plot.caption = element_text(
+        color = "grey50",
+        margin = margin(t = 20)
+      ),
+      plot.margin = margin(10, 10, 10, 10),
+      strip.text = element_text(
+        color = "grey40",
+        size = rel(0.9)
+      ),
+      panel.spacing = unit(2, "lines")
+    )
+}
+```
+
+```{r}
+#| eval: false
+theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
+  ...
+}
+```
+
+```{r}
+theme_set(theme_dk())
+```
+
+```{r}
+#| echo: false
+penguins_bar_chart <-
+  penguins |>
+  drop_na(island, bill_length_mm) |>
+  group_by(island) |>
+  summarize(avg_bill_length = mean(bill_length_mm)) |>
+  ungroup() |>
+  mutate(avg_bill_length_formatted = number(avg_bill_length, accuracy = 0.1)) |>
+  ggplot(aes(
+    x = island,
+    y = avg_bill_length
+  )) +
+  geom_col() +
+  labs(
+    title = "Average bill length of penguins by island",
+    subtitle = "Data shown in millimeters",
+    caption = "Source: {palmerpenguins} package"
+  )
+```
+
+
+```{r}
+penguins_bar_chart
+```

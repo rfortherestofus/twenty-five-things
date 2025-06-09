@@ -1,0 +1,28 @@
+{
+"type": "FeatureCollection",
+"name": "portland_libraries",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "library": "West Slope Community Library" }, "geometry": { "type": "Point", "coordinates": [ -122.757258811753005, 45.4932419741911 ] } },
+{ "type": "Feature", "properties": { "library": "St. Johns Library" }, "geometry": { "type": "Point", "coordinates": [ -122.751160020452005, 45.590077964846699 ] } },
+{ "type": "Feature", "properties": { "library": "North Portland Library" }, "geometry": { "type": "Point", "coordinates": [ -122.671464896708997, 45.562520633421798 ] } },
+{ "type": "Feature", "properties": { "library": "Sellwood-Moreland Library" }, "geometry": { "type": "Point", "coordinates": [ -122.652814631477995, 45.467695313516003 ] } },
+{ "type": "Feature", "properties": { "library": "Gregory Heights Library" }, "geometry": { "type": "Point", "coordinates": [ -122.581411675558002, 45.551568287779602 ] } },
+{ "type": "Feature", "properties": { "library": "Rockwood Library" }, "geometry": { "type": "Point", "coordinates": [ -122.479016900681003, 45.519488756827997 ] } },
+{ "type": "Feature", "properties": { "library": "Midland Library" }, "geometry": { "type": "Point", "coordinates": [ -122.538225314990001, 45.516765041332903 ] } },
+{ "type": "Feature", "properties": { "library": "Hollywood Library" }, "geometry": { "type": "Point", "coordinates": [ -122.621563802522004, 45.537630304036497 ] } },
+{ "type": "Feature", "properties": { "library": "Belmont Library" }, "geometry": { "type": "Point", "coordinates": [ -122.622682782072999, 45.5152411100105 ] } },
+{ "type": "Feature", "properties": { "library": "Central Library" }, "geometry": { "type": "Point", "coordinates": [ -122.682965190458006, 45.519223034447997 ] } },
+{ "type": "Feature", "properties": { "library": "Hillsdale Library" }, "geometry": { "type": "Point", "coordinates": [ -122.694051040505002, 45.479804309337197 ] } },
+{ "type": "Feature", "properties": { "library": "Woodstock Library" }, "geometry": { "type": "Point", "coordinates": [ -122.612161813512003, 45.478994163139298 ] } },
+{ "type": "Feature", "properties": { "library": "Holgate Library" }, "geometry": { "type": "Point", "coordinates": [ -122.582222647143993, 45.490416325277302 ] } },
+{ "type": "Feature", "properties": { "library": "Garden Home Community Library" }, "geometry": { "type": "Point", "coordinates": [ -122.753808294205996, 45.466177608277903 ] } },
+{ "type": "Feature", "properties": { "library": "Capitol Hill Library" }, "geometry": { "type": "Point", "coordinates": [ -122.725315569008998, 45.447953447732402 ] } },
+{ "type": "Feature", "properties": { "library": "Albina Library" }, "geometry": { "type": "Point", "coordinates": [ -122.663083607412005, 45.541608640437403 ] } },
+{ "type": "Feature", "properties": { "library": "Northwest Library" }, "geometry": { "type": "Point", "coordinates": [ -122.699058627170999, 45.535336851094598 ] } },
+{ "type": "Feature", "properties": { "library": "Cedar Mill Community Library" }, "geometry": { "type": "Point", "coordinates": [ -122.805720429542006, 45.526027894444397 ] } },
+{ "type": "Feature", "properties": { "library": "Oregon College of Art & Craft" }, "geometry": { "type": "Point", "coordinates": [ -122.760690982244, 45.511324969156 ] } },
+{ "type": "Feature", "properties": { "library": "Kenton Library" }, "geometry": { "type": "Point", "coordinates": [ -122.686553002657007, 45.582674320873501 ] } },
+{ "type": "Feature", "properties": { "library": "Cedar Mill Community Library at Bethany" }, "geometry": { "type": "Point", "coordinates": [ -122.835003204158994, 45.554438585611599 ] } }
+]
+}

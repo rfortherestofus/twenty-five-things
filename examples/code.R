@@ -3,10 +3,16 @@
 library(sf)
 library(tidyverse)
 library(tidygeocoder)
+library(janitor)
 
 # https://rlisdiscovery.oregonmetro.gov/datasets/da2229f19d854845ae6e164d4924fe7a_0/explore?location=45.547982,-122.660240,12.42
 
-libraries <- read_sf("data/libraries.geojson")
+libraries <- read_sf("data/libraries.geojson") |>
+  clean_names()
+
+libraries |>
+  filter(city == "Portland") |>
+  mapview::mapview()
 
 libraries_one_mile_buffer <-
   libraries |>
@@ -15,26 +21,30 @@ libraries_one_mile_buffer <-
 
 # https://nces.ed.gov/ccd/address.asp
 
-# pps_elementary_schools <-
-#   read_csv("data/sc091aow.csv") |>
-#   filter(mstate09 == "OR") |>
-#   filter(mcity09 == "PORTLAND") |>
-#   filter(str_detect(schnam09, "ELEMENTARY")) |>
-#   select(schnam09:mzip09) |>
-#   set_names("school", "street_address", "city", "state", "zip_code") |>
-#   geocode(
-#     street = street_address,
-#     city = city,
-#     state = state,
-#     postalcode = zip_code,
-#     method = "iq"
-#   )
+pps_elementary_schools <-
+  read_csv("data/sc091aow.csv") |>
+  filter(mstate09 == "OR") |>
+  filter(mcity09 == "PORTLAND") |>
+  filter(str_detect(schnam09, "ELEMENTARY")) |>
+  select(schnam09:mzip09) |>
+  set_names("school", "street_address", "city", "state", "zip_code") |>
+  geocode(
+    street = street_address,
+    city = city,
+    state = state,
+    postalcode = zip_code,
+    method = "census"
+  )
 
 # pps_elementary_schools |>
 #   st_as_sf(coords = c("long", "lat"), crs = 4326) |>
 #   write_sf("data/pps_elementary_schools.geojson")
 
 pps_elementary_schools <- read_sf("data/pps_elementary_schools.geojson")
+
+pps_elementary_schools |>
+  st_as_sf(coords = c("long", "lat"), crs = 4326) |>
+  mapview::mapview()
 
 pps_elementary_schools_near_libraries <-
   pps_elementary_schools |>

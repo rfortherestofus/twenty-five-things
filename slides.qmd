@@ -1,11 +1,33 @@
 ---
 title: "Twenty-Five Things You Didn't Know You Could Do with R"
-format: 
-    revealjs:
-        output-location: fragment
+format:
+  rfortherestofus-slides-revealjs:
+    menu: false
+    progress: false
+    slide-number: true
+    show-slide-number: print
+    center: true
+    incremental: true
+    auto-animate: true
+    slide-level: 4
+    output-location: slide
+knitr:
+  opts_chunk:
+    dev: "png"
+    dpi: 300
 execute: 
+  message: false
+  warning: false
+  cache: false
   echo: true
+title-slide-attributes:
+  data-background-image: assets/rru-hex-bg-gradient-dark.svg
+  data-background-size: cover
+editor_options: 
+  chunk_output_type: console
 ---
+
+
 
 ```{r}
 #| echo: false
@@ -28,22 +50,19 @@ And the more I started talking with others about how I used R, they were, to my 
 Now, before I get started, just one thing: not everything you will hear me talk about today is going to be new to you. It's impossible to choose twenty-five things that no one in a group of this size will be familiar with. But my hope is that you come away with at least a few new ideas for ways you can use R that you never previously considered. 
 :::
 
----
-
-# Accessing Data
+# Accessing Data {.inverse}
 
 ::: {.notes}
 Before you do any work in R, you need data. Let's begin by talking about ways that you can access data directly from R. 
 :::
 
----
-
-## 1. Work with API packages: googlesheets4
+## 1. Work with API packages: googlesheets4 {.inverse}
 
 ::: {.notes}
 As a social scientist, I conduct a lot of surveys. Now that I use R, one of my favorite ways to conduct surveys is with Google Forms. 
 
 **Resources**
+
 - Book chapter
 :::
 
@@ -63,11 +82,13 @@ Using Google Forms allows me to put survey responses directly into Google Sheets
 ---
 
 
-::: {.r-fit-text .center}
+::: {.r-fit-text}
 ```{r}
 #| eval: false
+library(googlesheets4)
+
 survey_data <-
-  googlesheets4::read_sheet(YOURSHEETURLHERE)
+  read_sheet(YOURSHEETURLHERE)
 ```
 :::
 
@@ -85,29 +106,30 @@ This means that every time a new response comes in, it just takes you rerunning 
 TODO: Add multiple screenshots to show responses in multiple cohorts
 
 **Resources**
+
 - Book chapter
 :::
 
----
 
-## 2. Work with API packages: qualtrics
-
+## 2. Work with API packages: qualtrics {.inverse}
 
 ---
 
+::: {.r-fit-text}
 ```{r}
 #| eval: false
+library(qualtRics)
+
 survey_data <-
-  qualtRics::fetch_survey(surveyID = "YOURSURVEYIDHERE")
+  fetch_survey(surveyID = "YOURSURVEYIDHERE")
 ```
+:::
 
 ::: {.notes}
 Another common tool for those collecting surveys is Qualtrics. And, fortunately for you, if you use Qualtrics, there is a package to bring in data directly from it. With the `fetch_survey()` function, you can bring in data from a Qualtrics survey, ensuring you are always working with the most up-to-date data. 
 :::
 
----
-
-## 3. Work with API packages: tidycensus
+## 3. Work with API packages: tidycensus {.inverse}
 
 ::: {.notes}
 A third way that I like to connect directly to my data source is with the {tidycensus} package. I work with a lot of data from the Census Bureau. 
@@ -123,15 +145,19 @@ Before I used R, I would spend hours on the Census Bureau website, finding the d
 
 ---
 
+::: {.r-fit-text}
 ```{r}
 #| eval: true
-tidycensus::get_acs(
-    state = "OR",
-    geography = "place",
-    geometry = TRUE,
-    variables = "B01003_001"
-  )
+library(tidycensus)
+
+get_acs(
+  state = "OR",
+  geography = "place",
+  geometry = TRUE,
+  variables = "B01003_001"
+)
 ```
+:::
 
 ::: {.notes}
 But with the {tidycensus} package, I can connect directly to the Census Bureau, pulling in data on command. 
@@ -139,9 +165,7 @@ But with the {tidycensus} package, I can connect directly to the Census Bureau, 
 This approach has proven particularly helpful in my work on the annual Oregon by the Numbers report, which relies heavily on data from the American Community Survey. 
 :::
 
----
-
-## 4. Work with APIs directly with {httr2}
+## 4. Work with APIs directly with {httr2} {.inverse}
 
 ::: {.notes}
 Under the hood, the {googlesheets4}, {qualtRics}, and {tidycensus} packages connect to data sources through APIs. Fortunately for us, they hide the often complicated work of accessing data through APIs. Unfortunately for us, there are times when we need to access data available through APIs, but without a wrapper package to simplify the process. In this case, the {httr2} package enables us to connect directly with APIs. 
@@ -159,31 +183,41 @@ For example, I have an internal dashboard I use to pull in data from multiple so
 
 ```{r}
 #| eval: false
+library(httr2)
+
 fathom_api_key <- Sys.getenv("FATHOM_API_KEY")
 
-httr2::request("https://api.usefathom.com/v1/aggregations") |>
-    httr2::req_url_query(
-      entity = "pageview",
-      aggregates = "visits,uniques,pageviews",
-      field_grouping = "pathname",
-      date_grouping = "month",
-      sort_by = "visits:desc",
-      limit = 1000
-    ) |>
-    httr2::req_headers(
-      Authorization = str_glue("Bearer {fathom_api_key}")
-    ) |>
-    httr2::req_perform()
+request("https://api.usefathom.com/v1/aggregations") |>
+  req_url_query(
+    entity = "pageview",
+    aggregates = "visits,uniques,pageviews",
+    field_grouping = "pathname",
+    date_grouping = "month",
+    sort_by = "visits:desc",
+    limit = 1000
+  ) |>
+  req_headers(
+    Authorization = str_glue("Bearer {fathom_api_key}")
+  ) |>
+  req_perform()
 ```
+
 
 ::: {.notes}
 Since few of these tools have dedicated R packages, I write code to connect to them directly. 
 :::
 
-
 ---
 
-## 5. Scrape data with {rvest}
+```{r}
+#| echo: false
+
+read_rds(here::here("data/df_fathom.rds")) |>
+  select(-page_type)
+```
+
+
+## 5. Scrape data with {rvest} {.inverse}
 
 ::: {.notes}
 There are other times when we want to access data and is there is no package to access it, nor is there an API to enable us to connect to the data source. In this case, we often need to scrape data from webpages. The {rvest} package is your friend in this case. 
@@ -195,27 +229,29 @@ There are other times when we want to access data and is there is no package to 
 
 ---
 
+::: {.r-fit-text}
 ```{r}
-rvest::read_html("https://en.wikipedia.org/wiki/List_of_FIFA_World_Cup_finals") |>
-  rvest::html_elements("table") |>
-  purrr::pluck(4) |>
-  rvest::html_table() |>
-  dplyr::select(-Ref.)
+library(rvest)
+library(tidyverse)
+
+read_html("https://en.wikipedia.org/wiki/List_of_FIFA_World_Cup_finals") |>
+  html_elements("table") |>
+  pluck(4) |>
+  html_table() |>
+  select(-Ref.)
 ```
+:::
 
 
----
+# Data Viz {.inverse .center}
 
-# Data Viz
-
----
-
-## 6. Make a custom ggplot theme
+## 6. Make a custom ggplot theme {.inverse}
 
 ::: {.notes}
 If you make plots in ggplot (and if you're here, I'm guessing you do), keeping them consistent and on brand can be challenging. Fortunately, this is where themes come in. If you've never tried to make your own ggplot theme, you should! It's surprisingly simple and with a few lines of code you can ensure that all of your plots are on brand.
 
 **Resources**
+
 - Jadey blog post
 - Book chapter
 :::
@@ -224,16 +260,53 @@ If you make plots in ggplot (and if you're here, I'm guessing you do), keeping t
 
 ---
 
-![](/assets/penguins_bar_chart 3.png){.r-stretch fig-align="center"}
+
+```{r}
+#| echo: false
+library(palmerpenguins)
+library(scales)
+
+penguins_bar_chart <-
+  penguins |>
+  drop_na(island, bill_length_mm) |>
+  group_by(island) |>
+  summarize(avg_bill_length = mean(bill_length_mm)) |>
+  ungroup() |>
+  mutate(avg_bill_length_formatted = number(avg_bill_length, accuracy = 0.1)) |>
+  ggplot(aes(
+    x = island,
+    y = avg_bill_length
+  )) +
+  geom_col() +
+  # geom_text(
+  #   aes(label = avg_bill_length_formatted),
+  #   vjust = 1.5,
+  #   color = "white"
+  # ) +
+  labs(
+    title = "Average bill length of penguins by island",
+    subtitle = "Data shown in millimeters",
+    caption = "Source: {palmerpenguins} package"
+  )
+```
+
+```{r}
+#| echo: false
+penguins_bar_chart
+```
+
 
 ---
 
-:::{.r-fit-text}
-
 ```{r}
-#| eval: false
+#| echo: false
+
 theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
-  ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
+  theme_dk <-
+    ggplot2::theme_minimal(
+      base_size = base_size,
+      base_family = base_family
+    ) +
     ggplot2::theme(
       panel.grid.minor = ggplot2::element_blank(),
       panel.grid.major = ggplot2::element_line(
@@ -241,10 +314,58 @@ theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
         linewidth = 0.5,
         linetype = "dashed"
       ),
+      axis.ticks = ggplot2::element_blank(),
       axis.text = ggplot2::element_text(
+        color = "grey50",
+        size = ggplot2::rel(0.8)
+      ),
+      axis.title = ggplot2::element_blank(),
+      plot.title.position = "plot",
+      plot.title = ggplot2::element_text(
+        face = "bold",
+        size = ggplot2::rel(1.5)
+      ),
+      plot.subtitle = ggplot2::element_text(
+        color = "grey40",
+        size = ggplot2::rel(1.1)
+      ),
+      plot.caption = ggplot2::element_text(
+        color = "grey50",
+        margin = ggplot2::margin(t = 20)
+      ),
+      plot.margin = ggplot2::margin(10, 10, 10, 10),
+      strip.text = ggplot2::element_text(
+        color = "grey40",
+        size = ggplot2::rel(0.9)
+      ),
+      panel.spacing = ggplot2::unit(2, "lines")
+    )
+
+  theme_dk
+}
+```
+
+
+:::{.r-fit-text}
+
+```{r}
+#| eval: false
+library(tidyverse)
+
+theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
+  theme_minimal(base_size = base_size, base_family = base_family) +
+    theme(
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(
+        color = "grey90",
+        linewidth = 0.5,
+        linetype = "dashed"
+      ),
+      axis.text = element_text(
         color = "grey50"
       ),
       ETC
+    )
 }
 ```
 
@@ -252,11 +373,18 @@ theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
 
 ---
 
-![](/assets/penguins_bar_chart-with-theme 1.png){.r-stretch fig-align="center"}
+::: {.r-fit-text}
+```{r}
+penguins_bar_chart +
+  theme_dk()
+```
+:::
+
+
 
 ---
 
-## 7. theme_set()
+## 7. theme_set() {.inverse}
 
 ---
 
@@ -281,11 +409,9 @@ penguins_bar_chart
 
 ---
 
-![](/assets//assets/penguins_bar_chart-with-theme 1.png){.r-stretch fig-align="center"}
+![](/assets/penguins_bar_chart-with-theme 1.png){.r-stretch fig-align="center"}
 
----
-
-## 8. Use update_geom_defaults()
+## 8. Use update_geom_defaults() {.inverse}
 
 
 ::: {.notes}
@@ -294,44 +420,36 @@ Creating a theme is a great way to handle the look and feel of things like title
 
 ---
 
-TODO: Add theme_dk actual code above
-
+::: {.r-fit-text}
 ```{r}
-#| eval: false
+#| output-location: slide
 penguins_bar_chart +
-  theme_dk(base_family = "IBM Plex Mono", base_size = 10) +
-  ggplot2::geom_text(
-    ggplot2::aes(label = avg_bill_length_formatted),
-    vjust = 1.5,
-    color = "white"
-  )
+  theme_dk(base_family = "IBM Plex Mono", base_size = 10)
 ```
+:::
 
 ::: {.notes}
 So, let's say you want to use `geom_text()` to add labels to your plot. See here how I've added a layer to my plot to add labels that show the average bill length. You'll also see that I've changed the font in my theme to be IBM Plex Mono just to make it more obvious. 
-:::
 
----
-
-![](/assets/penguins_bar_chart-mono.png){.r-stretch fig-align="center"}
-
-::: {.notes}
 When I run my code I get a plot that uses IBM Plex Mono everywhere except where `geom_text()` added labels.
 :::
 
+
 ---
 
+::: {.r-fit-text}
 ```{r}
-#| eval: false
+#| output-location: slide
 penguins_bar_chart +
   theme_dk(base_family = "IBM Plex Mono", base_size = 10) +
-  ggplot2::geom_text(
-    ggplot2::aes(label = avg_bill_length_formatted),
+  geom_text(
+    aes(label = avg_bill_length_formatted),
     vjust = 1.5,
     color = "white",
     family = "IBM Plex Mono"
   )
 ```
+:::
 
 ::: {.notes}
 The way most people change this is by adding `family = "IBM Plex Mono"` within `geom_text()`. This is fine to do in one or two charts, but say you're making an entire report with dozens of charts. You don't want to have to add `family = "IBM Plex Mono"` dozens of times. The way around this is with the `update_geom_defaults()` function. This function lets you set defaults for various geoms. 
@@ -339,76 +457,130 @@ The way most people change this is by adding `family = "IBM Plex Mono"` within `
 
 ---
 
+::: {.r-fit-text}
 ```{r}
-ggplot2::update_geom_defaults(
+update_geom_defaults(
   geom = "text",
-  ggplot2::aes(
-    family = "IBM Plex Mono"
-  )
+  aes(family = "IBM Plex Mono")
+)
+```
+:::
+
+::: {.notes}
+Here, for example, you can set the default family for all geom_text() instances to be IBM Plex Mono. 
+:::
+
+---
+
+````{markdown}
+#| eval: false
+```
+title: "Penguins Report"
+```
+
+```{r}
+theme_dk <- function(
+  base_family = "Inter Tight",
+  base_size = 14
+    ) {}
+```
+
+```{r}
+theme_set(theme_dk())
+
+update_geom_defaults(
+  geom = "text",
+  aes(family = "IBM Plex Mono")
 )
 ```
 
+```{r}
+penguins_bar_chart
+```
+````
+
 ::: {.notes}
-Here, for example, you can set the default family for all geom_text() instances to be IBM Plex Mono. Just put this code at the top of your R script or Quarto document and all of your charts will use IBM Plex Mono everywhere. 
+Just put this code at the top of your R script or Quarto document and all of your charts will use IBM Plex Mono everywhere. 
 :::
 
-
 ---
 
-# Maps
+```{r}
+#| echo: false
+theme_set(theme_dk())
+
+update_geom_defaults(geom = "text", aes(family = "IBM Plex Mono"))
+
+penguins_bar_chart +
+  geom_text(
+    aes(label = avg_bill_length_formatted),
+    vjust = 1.5,
+    color = "white",
+    family = "IBM Plex Mono"
+  )
+```
 
 
----
 
-## 9. Make maps
+# Maps {.inverse .center}
+
+
+## 9. Make maps {.inverse}
 
 ::: {.notes}
 R is renowned for its graph-making capabilities. Did you know that you can use ggplot, that same package you use to make graphs, to make maps? There is a special geom (geom_sf()) that allows you to make maps. And everything you have learned about ggplot applies to maps too: color and fill scales, themes, and more.
 
 **Resources**
+
 - Book chapter
 - Course
 :::
 
 ---
 
-
+::: {.r-fit-text}
 ```{r}
+library(tidycensus)
+
 median_income_by_county <-
-  tidycensus::get_acs(
+  get_acs(
     geography = "county",
     variables = c(median_income = "B19013_001"),
     geometry = TRUE
   )
 ```
+:::
 
 ---
 
+::: {.r-fit-text}
 ```{r}
 median_income_by_county
 ```
-
-
+:::
 
 ---
 
 ```{r}
+#| output-location: slide
+library(tidyverse)
+library(tigris)
+library(scales)
+
 median_income_by_county |>
-  tigris::shift_geometry() |>
-  ggplot2::ggplot(ggplot2::aes(fill = estimate)) +
-  ggplot2::geom_sf(linewidth = 0) +
-  ggplot2::scale_fill_viridis_c(
+  shift_geometry() |>
+  ggplot(aes(fill = estimate)) +
+  geom_sf(linewidth = 0) +
+  scale_fill_viridis_c(
     option = "B",
-    labels = scales::dollar_format(),
+    labels = dollar_format(),
     name = NULL
   ) +
-  ggplot2::theme_void()
+  theme_void()
 ```
 
 
----
-
-## 10. Do geospatial data analysis (e.g. Meijer stores example)
+## 10. Do geospatial data analysis (e.g. Meijer stores example) {.inverse}
 
 ::: {.notes}
 It's not just mapping that you can do in R. If you need to do geospatial analysis in R, that's very possible! While many people think of tools like ArcGIS for geospatial analysis, R is a fully-fledged GIS tool. A client we work with recently asked me to do an analysis of SNAP-Ed program sites within 5 miles of grocery stores. With just a few lines of code, I was able to tell her the sites that met this criteria. This is just one example of how you can use R for geospatial analysis. 
@@ -420,60 +592,228 @@ https://github.com/MichiganFitnessFoundation/mff-r-training/issues/74
 ---
 
 ```{r}
-library(sf)
-libraries <- read_sf("data/libraries.geojson")
+#| eval: false
+#| echo: false
 
-libraries_one_mile_buffer <-
-  libraries |>
+# Data from https://rlisdiscovery.oregonmetro.gov/datasets/da2229f19d854845ae6e164d4924fe7a_0/explore?location=45.547982,-122.660240,12.42
+
+metro_libraries <- read_sf("data/libraries.geojson") |>
+  clean_names()
+
+metro_libraries |>
+  filter(city == "Portland") |>
+  select(library = name) |>
+  write_sf("data/portland_libraries.geojson")
+```
+
+```{r}
+#| echo: false
+
+library(sf)
+
+portland_center_coords <-
+  read_sf("data/portland_boundaries.geojson") |>
+  st_centroid() |>
+  st_coordinates() |>
+  as_tibble() |>
+  pivot_longer(cols = everything()) |>
+  pull(value)
+```
+
+
+::: {.r-fit-text}
+```{r}
+library(sf)
+
+portland_libraries <- read_sf("data/portland_libraries.geojson")
+```
+:::
+
+. . .
+
+```{r}
+#| echo: false
+portland_libraries
+```
+
+
+---
+
+```{r}
+#| echo: false
+library(mapgl)
+
+maplibre(bounds = portland_libraries) |>
+  add_circle_layer(
+    source = portland_libraries,
+    circle_color = "#7570b3",
+    tooltip = "library",
+    id = "portland_libraries"
+  )
+```
+
+
+---
+
+```{r}
+portland_libraries_one_mile_buffer <-
+  portland_libraries |>
   st_buffer(1 * 1609.34)
 ```
 
----
+. . .
 
 ```{r}
-pps_elementary_schools <- sf::read_sf("data/pps_elementary_schools.geojson")
-```
-
-
-```{r}
-portland_boundaries <- read_sf("data/portland_boundaries.geojson")
+#| echo: false
+portland_libraries_one_mile_buffer
 ```
 
 
 ---
+
+```{r}
+#| echo: false
+maplibre(bounds = portland_libraries_one_mile_buffer) |>
+  add_fill_layer(
+    source = portland_libraries_one_mile_buffer,
+    fill_color = "#7570b3",
+    fill_opacity = 0.5,
+    tooltip = "library",
+    id = "portland_libraries"
+  )
+```
+
+---
+
+```{r}
+#| eval: false
+#| echo: false
+# Data from https://nces.ed.gov/ccd/address.asp
+
+read_csv("data/sc091aow.csv") |>
+  filter(mstate09 == "OR") |>
+  filter(mcity09 == "PORTLAND") |>
+  filter(str_detect(schnam09, "ELEMENTARY")) |>
+  select(schnam09:mzip09) |>
+  set_names("school", "street_address", "city", "state", "zip_code") |>
+  geocode(
+    street = street_address,
+    city = city,
+    state = state,
+    postalcode = zip_code,
+    method = "census"
+  ) |>
+  st_as_sf(coords = c("long", "lat"), crs = 4326) |>
+  select(school) |>
+  mutate(school = str_to_title(school)) |>
+  write_sf("data/pps_elementary_schools.geojson")
+```
+
+
+```{r}
+pps_elementary_schools <-
+  read_sf("data/pps_elementary_schools.geojson")
+```
+
+. . .
+
+```{r}
+#| echo: false
+pps_elementary_schools
+```
+
+---
+
+```{r}
+#| echo: false
+maplibre(bounds = pps_elementary_schools) |>
+  add_circle_layer(
+    source = pps_elementary_schools,
+    circle_color = "black",
+    tooltip = "library",
+    id = "portland_libraries"
+  )
+```
+
+
+
+---
+
+```{r}
+pps_elementary_schools |>
+  st_join(portland_libraries_one_mile_buffer)
+```
+
+---
+
 
 ```{r}
 pps_elementary_schools_near_libraries <-
   pps_elementary_schools |>
-  st_join(libraries_one_mile_buffer) |>
-  mutate(has_nearby_library = if_else(is.na(NAME), FALSE, TRUE)) |>
+  st_join(portland_libraries_one_mile_buffer) |>
+  mutate(has_nearby_library = case_when(
+    is.na(library) ~ "Within one mile of library",
+    .default = "Not within one mile of library"
+  )) |>
   select(school, has_nearby_library)
 ```
+
+. . .
+
+```{r}
+#| echo: false
+pps_elementary_schools_near_libraries
+```
+
 
 ---
 
 ```{r}
-pps_elementary_schools_near_libraries |>
-  ggplot() +
-  geom_sf(data = portland_boundaries) +
-  geom_sf(aes(color = has_nearby_library)) +
-  theme_void()
+#| echo: false
+#| height: 400px
+maplibre(bounds = pps_elementary_schools_near_libraries) |>
+  add_fill_layer(
+    source = portland_libraries_one_mile_buffer,
+    fill_color = "#7570b3",
+    fill_opacity = 0.5,
+    tooltip = "library",
+    id = "portland_libraries"
+  ) |>
+  add_circle_layer(
+    source = pps_elementary_schools_near_libraries,
+    circle_color = match_expr(
+      "has_nearby_library",
+      values = c(
+        "Within one mile of library",
+        "Not within one mile of library"
+      ),
+      stops = c(
+        "#1b9e77",
+        "#d95f02"
+      )
+    ),
+    tooltip = "school",
+    id = "schools"
+  ) |>
+  add_categorical_legend(
+    values = c(
+      "Within one mile of library",
+      "Not within one mile of library"
+    ),
+    legend_title = NULL,
+    colors = c("#1b9e77", "#d95f02"),
+    circular_patches = TRUE
+  )
 ```
 
 
----
-
-# Reporting
+# Reporting {.inverse .center}
 
 ::: {.notes}
 Whatever else you do in R, you need to report your results. As a tool designed for reproducible reporting, R is, of course, incredibly well designed for this purpose. Here are some ways you can improve your reporting in R.
 :::
 
-
-
----
-
-## 11. Make wide range of outputs with Quarto
+## 11. Make wide range of outputs with Quarto {.inverse}
 
 ::: {.notes}
 When I teach people to use Quarto, I always start with simple outputs: single HTML files, PDFs, and Word documents. But Quarto can go beyond single documents. You can build a full website with Quarto, a dashboard, slides, and much more. 
@@ -492,9 +832,7 @@ TODO: Show slides
 
 TODO: Show website
 
----
-
-## 12. brand.yml
+## 12. brand.yml {.inverse}
 
 ::: {.notes}
 A recent addition to the Quarto landscape is brand.yml. This framework allows you to add a single file, `_brand.yml`, to your project which lets you specify things like fonts, colors, logos, and more. Keeping your Quarto documents on brand has never been easier!
@@ -520,17 +858,15 @@ TODO: Show slides that use brand.yml
 
 TODO: Show website that uses brand.yml
 
----
-
 ## 13. Publish websites online with Netlify
+
+TODO: Add content
 
 ::: {.notes}
 Creating reports in Quarto is just the first step. You also need to share them. If you render to some type of HTML output (this can be HTML files, websites, dashboards, slides, and more), you can publish them online. My favorite tool to do this is Netlify. Connect your GitHub repo to Netlify and every time you push updates they will show up online. 
 :::
 
----
-
-## 14. Make multiple websites for stakeholders (like MFF did)
+## 14. Make multiple websites for stakeholders (like MFF did) {.inverse}
 
 ::: {.notes}
 Making a website with Quarto is pretty cool. Making many websites with Quarto is very cool. A client I worked with needed to create separate websites for various organizations they work with. They created a website template and then wrote code to render it multiple times, creating a website for each organization. 
@@ -541,10 +877,12 @@ TODO: Clarify details (was it survey?)
 
 ---
 
-## 15. Make PDFs with typst
+## 15. Make PDFs with typst {.inverse}
 
 ::: {.notes}
 Most people, when they think about making PDFs in Quarto, immediately think Latex. If this is enough to put you off from making PDFs in R, please know there is a new alternative. Known as typst, it is a modern reimagining of Latex. 
+
+TODO: Show WVC screenshot
 
 **Resources**
 - My talk
@@ -552,11 +890,11 @@ Most people, when they think about making PDFs in Quarto, immediately think Late
 
 ---
 
-# Automation
+# Automation {.inverse}
 
 ---
 
-## 16. Use the {gmailr} or {blastula} package to send reports to stakeholders (e.g. how we did this for Prosper Portland)
+## 16. Use the {gmailr} or {blastula} package to send reports to stakeholders (e.g. how we did this for Prosper Portland) {.inverse}
 
 ::: {.notes}
 In 2020, at the start of the COVID pandemic, we were working with Prosper Portland, the small business development agency for the city of Portland. They had quickly started a grant program for businesses impacted by the pandemic. It was, like so much in those early days of COVID, thrown together quickly. They set up an application form and they wanted an easy way to see a summary of information about businesses seeking relief. We wrote code to pull data from a Google Sheet and create a summary report. And, best of all, we set it up to email the report directly to Prosper Portland staff using the {gmailr} package. 
@@ -568,7 +906,48 @@ In 2020, at the start of the COVID pandemic, we were working with Prosper Portla
 
 ---
 
-## 17. Using GitHub Actions to run code on a schedule (e.g. Prosper Portland)
+```{r}
+#| eval: false
+
+library(tidyverse)
+library(quarto)
+
+rendered_report <- str_glue("covid-business-relief-contact-log-{today()}.html")
+
+quarto_render(
+  input = "report.qmd",
+  output_file = rendered_report
+)
+```
+
+---
+
+::: {.r-fit-text}
+```{r}
+#| eval: false
+
+library(gmailr)
+
+gm_auth_configure()
+gm_auth(email = TRUE, cache = ".secret")
+
+email_report <-
+  gm_mime() |>
+  gm_to("Joe Schmoe <joeschmoe@prosperportland.us>") |>
+  gm_from("David Keyes <david@rfortherestofus.com>") |>
+  gm_subject("COVID Business Relief Contact Log") |>
+  gm_text_body("See attached") |>
+  gm_attach_file(rendered_report)
+
+gm_send_message(email_report)
+```
+:::
+
+
+
+---
+
+## 17. Using GitHub Actions to run code on a schedule (e.g. Prosper Portland) {.inverse}
 
 ::: {.notes}
 In 2020, at the start of the COVID pandemic, we were working with Prosper Portland, the small business development agency for the city of Portland. They had quickly started a grant program for businesses impacted by the pandemic. It was, like so much in those early days of COVID, thrown together quickly. They set up an application form and they wanted an easy way to see a summary of information about businesses seeking relief. We wrote code to pull data from a Google Sheet and create a summary report. And, best of all, we set it up to email the report directly to Prosper Portland staff using the {gmailr} package. 
@@ -580,7 +959,48 @@ In 2020, at the start of the COVID pandemic, we were working with Prosper Portla
 
 ---
 
-## 18. Use fs package to work with files (e.g. how I zip and send all files to Elissa)
+::: {.r-fit-text}
+```{yaml}
+#| eval: false
+name: Render Report and Send It
+
+on:
+  schedule:
+    - cron:  '00 14 * * 1-5'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: rocker/geospatial
+    
+    env:
+      GMAILR_APP: ${{ secrets.GMAILR_APP }}
+      GMAILR_EMAIL: ${{ secrets.GMAILR_EMAIL }}
+```
+:::
+
+---
+
+::: {.r-fit-text}
+```{yaml}
+   steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          install.packages("remotes")
+          remotes::install_cran("quarto")
+          remotes::install_cran("gmailr")
+          ETC
+        shell: Rscript {0}
+          
+      - name: Render + Send
+        run: |-
+          Rscript render_gmail.R
+```
+:::
+
+## 18. Use fs package to work with files (e.g. how I zip and send all files to Elissa) {.inverse}
 
 ::: {.notes}
 Speaking of automation, I often have to move files around. For example, when working on the annual Oregon by the Numbers Report, I make a ton of plots that I have to share with the graphic designer who lays out the report. I used to manually copy all of these files and upload them to Google Drive. But then I came across the {fs} and {zip} packages. I use {fs} to create a list of all the files I've created, which I then pass to the {zip} package in order to create a zip file. And, if I'm feeling extra fancy, I upload the zip file automatically to Google Drive using the {googledrive} package. With all of this, I just have to run my code and share a single link with the designer.
@@ -592,21 +1012,59 @@ Speaking of automation, I often have to move files around. For example, when wor
 
 ---
 
-# LLMs for coding
+![](assets/county-pages.png)
+
+---
+
+![](assets/measure-pages.png)
+
+
+---
+
+::: {.r-fit-text}
+```{r}
+#| eval: false
+library(fs)
+library(zip)
+
+county_pages <- dir_ls("outputs/pages/county/")
+
+measure_pages <- dir_ls("outputs/pages/measure/")
+
+all_pages_zip <-
+  zip(
+    zipfile = str_glue("outputs/zip/{obtn_year}-obtn-files-{today()}.zip"),
+    files = c(county_pages, measure_pages)
+  )
+```
+:::
+
+---
+
+::: {.r-fit-text}
+```{r}
+#| eval: false
+
+library(googledrive)
+
+drive_upload(all_pages_zip)
+```
+:::
+
+
+# LLMs for coding {.inverse .center}
 
 ::: {.notes}
 Let's finish off by talking about ways that you can use large language models when working with R. Now I'm not an AI hype boy here to tell you that this or that model will blow your mind. And, to be honest, I'm actually a bit hesitant to discuss AI at all because what I tell you today may already be out of date. That said, I think there are some foundational ways that you can use LLMs that will stand the test of time. 
 :::
 
 
----
-
-## 19. Set up a custom GPT to get answers
+## 19. Set up a custom GPT to get answers {.inverse}
 
 ::: {.notes}
 My initial foray into using LLMs to work with code was, as I suspect was the case for many of you, through asking ChatGPT questions. And, like many of you, I found its answers at times incredibly helpful and at other times incredibly maddening. Sometimes it would give me base R code, other times tidyverse code. What I came to realize is that I needed to give it detailed instructions on what I wanted. And the best way to do this is to create custom instructions. Now, every time I ask an R question to an LLM, I do it with the following instructions:
 
-> Please answer the following R question. When I program, I always like to use the tidyverse. Please don't ever give me base R solutions. Please also always use the native pipe (|>) not the tidyverse pipe (%>%).
+> Please answer the following R question. When I program, I always like to use the tidyverse. Please don't ever give me base R solutions. Please also always use the native pipe (|>) not the tidyverse pipe (|>).
 
 You can paste in instructions like this each time you work with your AI tool of choice. You can create custom GPTs in ChatGPT to save these custom instructions. I use a tool called Raycast for working with LLMs and it has a feature that allows me to create a custom AI prompt with these insturctions.
 
@@ -620,15 +1078,34 @@ Every time I have a question for AI, I call up my AI chat preset, which has my i
 
 ---
 
-## 20. Use GitHub Copilot or Windsurf
+. . .
+
+Please answer the following R question. 
+
+. . .
+
+When I program, I always like to use the tidyverse. 
+
+. . .
+
+Please don't ever give me base R solutions. 
+
+. . .
+
+Please also always use the native pipe (|>) not the tidyverse pipe (%>%).
+
+## 20. Use LLMs Directly in your IDE {.inverse}
+
+TODO: Add content
 
 ::: {.notes}
 Working with a tool like Raycast or ChatGPT requires you to go outside of your code editor. Another approach is to work with LLMs directly in your editor. If you use RStudio, you can connect directly with GitHub Copilot. If you use Positron, there are a number of extensions you can use to have LLMs interact directly with your code. Whether it's offering suggestions on improving your code, adding new code, or asking general questions about your code, these tools can be extremely helpful.
 :::
 
----
 
-## 21. Use {gander} package to get LLMs to work with your data
+## 21. Use {gander} package to get LLMs to work with your data {.inverse}
+
+TODO: Add content
 
 ::: {.notes}
 A few months ago, I spoke with Posit developer Simon Couch, who is working on a range of R packages to interact with LLMs. Simon has written that:
@@ -644,7 +1121,7 @@ In our conversation, Simon explained this further, saying that, when asking a qu
 
 ---
 
-# LLMs for data analysis
+# LLMs for data analysis {.inverse}
 
 ::: {.notes}
 LLMs are great for helping you write code to analyze your data. They can also do some of the data analysis for you. 
@@ -654,9 +1131,70 @@ Now, before anything else, I have to say: please don't rely on LLMs for mission 
 With that said, the area I have found LLMs to be most helpful is with qualitative data. This data, which is often unstructured, is a perfect candidate for a tool that is comfortable bringing structure to messiness. Here are a few ways you can use it.
 :::
 
+
+## 22. Translate text {.inverse}
+
+::: {.notes}
+The {mall} package can also translate text. If you get responses in multiple languages, you can easily translate them to English. 
+
+TODO: Add examples
+
+TODO: Show translating text and then summarizing
+:::
+
 ---
 
-## 22. Summarize text
+
+```{r}
+#| eval: false
+#| echo: false
+
+read_tsv("data/survey_spanish.tsv") |>
+  filter(Qlike_best |> str_length() > 50) |>
+  select(spanish = Qlike_best) |>
+  view()
+slice(2, 3, 10, 17, 34, 70, 67, 110, 133, 146) |>
+  write_csv("data/survey_spanish.csv")
+```
+
+
+```{r}
+library(tidyverse)
+
+survey_spanish <-
+  read_csv("data/survey_spanish.csv")
+```
+
+. . .
+
+```{r}
+#| echo: false
+
+survey_spanish |>
+  gt::gt() |>
+  gt::opt_interactive()
+```
+
+---
+
+```{r}
+library(mall)
+
+survey_translated <-
+  survey_spanish |>
+  llm_translate(spanish, language = "English", pred_name = "english")
+```
+
+. . .
+
+```{r}
+#| echo: false
+survey_translated |>
+  gt::gt() |>
+  gt::opt_interactive(page_size_default = 5)
+```
+
+## 23. Summarize text {.inverse}
 
 ::: {.notes}
 If you've ever conducted a survey or simply asked an open-ended question and got more text back than you could analyze by hand, why not try using AI for a quick and dirty analysis? The {mall} package lets you take long text and summarize it down to a shorter length.
@@ -669,19 +1207,27 @@ TODO: Add example
 
 ---
 
-## 23. Translate text
-
-::: {.notes}
-The {mall} package can also translate text. If you get responses in multiple languages, you can easily translate them to English. 
-
-TODO: Add examples
-
-TODO: Show translating text and then summarizing
+::: {.r-fit-text}
+```{r}
+survey_translated_summary <-
+  survey_translated |>
+  llm_summarize(english, max_words = 5, pred_name = "summary")
+```
 :::
 
 ---
 
-## 24. Create your own prompt
+
+```{r}
+#| echo: false
+survey_translated_summary |>
+  gt::gt() |>
+  gt::opt_interactive(page_size_default = 5)
+```
+
+
+
+## 24. Create your own prompt {.inverse}
 
 ::: {.notes}
 The {mall} package provides some great out-of-the-box prompts you can use. You can also create your own prompts. I've used the {ellmer} package to interact directly with LLMs. 
@@ -693,7 +1239,71 @@ TODO: Add example
 
 ---
 
-# 25. Join the Community
+::: {.r-fit-text}
+```{r}
+library(ellmer)
+
+identify_themes <- function(text) {
+  chat <- chat_openai(
+    system_prompt = "You are a sociologist,
+    looking for the top three themes in the responses to a survey.
+    Each response is separated by \n"
+  )
+
+  chat$chat(text)
+}
+```
+:::
+
+---
+
+::: {.r-fit-text}
+```{r}
+survey_translated_combined <-
+  survey_translated |>
+  pull(english) |>
+  paste(collapse = "\n")
+```
+:::
+
+. . .
+
+```{r}
+#| echo: false
+survey_translated_combined
+```
+
+---
+
+::: {.r-fit-text}
+```{r}
+#| eval: false
+survey_translated_combined |>
+  identify_themes()
+```
+:::
+
+---
+
+```
+Based on the survey responses provided, the top three themes appear to be:
+
+1. **Open Source and Community Contributions**: Many responses highlight the benefits of R being open-source, emphasizing the cost-free access to robust 
+data analysis tools and frequent updates driven by community contributions. The active community also offers a wealth of packages for various tasks, which
+enhances the flexibility and capability of the software.
+
+2. **Learning and Accessibility**: While there is mention of a steep learning curve initially, respondents note that learning R becomes easier over time. 
+The diversity and availability of resources make it possible to quickly achieve results, encouraging continued learning and exploration.
+
+3. **Functionality and Efficiency**: Respondents appreciate the range of statistical procedures that R can handle with ease, as well as the speed and 
+efficiency in managing large datasets, such as through tools like rdata.table. The power of R's data structure, which aligns with mathematical concepts, 
+and the wide variety of packages further contribute to its functionality.
+```
+
+
+
+
+# 25. Join the Community {.inverse}
 
 ::: {.notes}
 I've now given you 24 things that you perhaps didn't know you could do with R. All of them are technical. But I'd be remiss if I didn't mention the one thing that you can do with R that is, in fact, the opposite of technical. 
@@ -704,4 +1314,3 @@ You may not have ever considered it, but R can help you find your community. As 
 
 That I, a qualitative researcher who, for so long, thought of myself as not being a "real" user am up here today is in no small part because of the encouragement I have received from the R community. It may be a technical tool that brings us together in the first place, but it is the community that keeps us together in the long run. 
 :::
-

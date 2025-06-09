@@ -1,0 +1,73 @@
+---
+title: "Median Income Report"
+format: html
+execute: 
+  echo: false
+  warning: false
+  message: false
+---
+
+
+```{r}
+library(tidyverse)
+library(tidycensus)
+library(tigris)
+library(scales)
+```
+
+```{r}
+#| results: hide
+median_income_by_county <-
+  get_acs(
+    geography = "county",
+    variables = c(median_income = "B19013_001"),
+    geometry = TRUE
+  )
+```
+
+# United States
+
+This is a report on median household income. Below, you can see the median household income for each county in the United States.
+
+```{r}
+median_income_by_county |>
+  shift_geometry() |>
+  ggplot(aes(fill = estimate)) +
+  geom_sf(linewidth = 0) +
+  scale_fill_viridis_c(
+    option = "B",
+    labels = dollar_format(),
+    name = NULL
+  ) +
+  theme_void()
+```
+
+# Oregon
+
+We can also zoom in to just show Oregon. 
+
+```{r}
+#| results: hide
+median_income_by_county_oregon <- 
+  get_acs(
+    geography = "county",
+    state = "Oregon",
+    variables = c(median_income = "B19013_001"),
+    geometry = TRUE
+  )
+```
+
+```{r}
+median_income_by_county_oregon |> 
+  ggplot(aes(fill = estimate)) +
+  geom_sf(linewidth = 0) +
+  scale_fill_viridis_c(
+    option = "D",
+    labels = dollar_format(),
+    name = NULL
+  ) +
+  theme_void()
+```
+
+
+

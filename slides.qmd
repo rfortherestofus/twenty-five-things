@@ -56,7 +56,11 @@ Now, before I get started, just one thing: not everything you will hear me talk 
 Before you do any work in R, you need data. Let's begin by talking about ways that you can access data directly from R. 
 :::
 
-## 1. Work with API packages: googlesheets4 {.inverse}
+## Work with API packages: googlesheets4 {.inverse}
+
+:::{.big-number}
+1
+:::
 
 ::: {.notes}
 As a social scientist, I conduct a lot of surveys. Now that I use R, one of my favorite ways to conduct surveys is with Google Forms. 
@@ -111,7 +115,12 @@ TODO: Add multiple screenshots to show responses in multiple cohorts
 :::
 
 
-## 2. Work with API packages: qualtrics {.inverse}
+## Work with API packages: qualtrics {.inverse}
+
+
+:::{.big-number}
+2
+:::
 
 ---
 
@@ -129,7 +138,12 @@ survey_data <-
 Another common tool for those collecting surveys is Qualtrics. And, fortunately for you, if you use Qualtrics, there is a package to bring in data directly from it. With the `fetch_survey()` function, you can bring in data from a Qualtrics survey, ensuring you are always working with the most up-to-date data. 
 :::
 
-## 3. Work with API packages: tidycensus {.inverse}
+## Work with API packages: tidycensus {.inverse}
+
+:::{.big-number}
+2
+:::
+
 
 ::: {.notes}
 A third way that I like to connect directly to my data source is with the {tidycensus} package. I work with a lot of data from the Census Bureau. 
@@ -165,7 +179,12 @@ But with the {tidycensus} package, I can connect directly to the Census Bureau, 
 This approach has proven particularly helpful in my work on the annual Oregon by the Numbers report, which relies heavily on data from the American Community Survey. 
 :::
 
-## 4. Work with APIs directly with {httr2} {.inverse}
+## Work with APIs directly with {httr2} {.inverse}
+
+:::{.big-number}
+44
+:::
+
 
 ::: {.notes}
 Under the hood, the {googlesheets4}, {qualtRics}, and {tidycensus} packages connect to data sources through APIs. Fortunately for us, they hide the often complicated work of accessing data through APIs. Unfortunately for us, there are times when we need to access data available through APIs, but without a wrapper package to simplify the process. In this case, the {httr2} package enables us to connect directly with APIs. 
@@ -214,7 +233,12 @@ read_rds(here::here("data/df_fathom.rds")) |>
 ```
 
 
-## 5. Scrape data with {rvest} {.inverse}
+## Scrape data with {rvest} {.inverse}
+
+:::{.big-number}
+5
+:::
+
 
 ::: {.notes}
 There are other times when we want to access data and is there is no package to access it, nor is there an API to enable us to connect to the data source. In this case, we often need to scrape data from webpages. The {rvest} package is your friend in this case. 

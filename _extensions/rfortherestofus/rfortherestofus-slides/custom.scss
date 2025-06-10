@@ -215,3 +215,19 @@ a > code {
 .center-slide {
   text-align: center;
 }
+
+.big-number {
+  position: absolute;
+  top: -300px;
+  left: -125px;
+}
+
+.big-number p {
+  font-size: 400px; /* Huge text size */
+  font-weight: 700; /* Bold for better visibility */
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.25); /* Very light white, almost transparent */
+  z-index: -1; /* Behind other content */
+  user-select: none; /* Prevent text selection */
+  pointer-events: none; /* Don't interfere with clicks */
+}

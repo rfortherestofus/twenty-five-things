@@ -1,0 +1,63 @@
+---
+title: "Twenty-Five Things You Didn't Know You Could Do with R"
+format:
+  rfortherestofus-slides-revealjs:
+    menu: false
+    progress: false
+    slide-number: true
+    show-slide-number: print
+    center: true
+    incremental: true
+    auto-animate: true
+    slide-level: 4
+    output-location: slide
+knitr:
+  opts_chunk:
+    dev: "png"
+    dpi: 300
+execute: 
+  message: false
+  warning: false
+  cache: false
+  echo: true
+title-slide-attributes:
+  data-background-image: assets/rru-hex-bg-gradient-dark.svg
+  data-background-size: cover
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+#| echo: false
+options(tigris_use_cache = TRUE)
+library(tidyverse)
+```
+
+
+# Twenty-Five Things You Didn't Know You Could Do with R {.inverse .center}
+
+::: {.notes}
+Hi, I'm David Keyes and I run R for the Rest of Us. I'm excited to be here today and to talk with you about doing things in R you didn't know you could do. Twenty-five things to be precise. 
+
+I find it ironic in many ways that I am up here talking to you about unique ways to use R. I say that because for a long time I didn't feel like a "real" R user. You see, I don't come from a typical R background. I'm a qualitative researcher with a PhD in anthropology. I don't have advanced training in statistics. When I started using R I felt like I wasn't a real R user because the most complicated stats I calculated then, and still calculate now, were descriptive stats. 
+
+But eventually I realized that R isn't just about stats. Or, more precisely, R can do more than just complicated statistical techniques. Eventually, I learned to use R for things like data visualization, reproducible reporting, making maps, and much more. R became my Swiss Army knife, enabling me to do anything I needed to with data.
+
+And the more I started talking with others about how I used R, they were, to my surprise, quite interested. Eventually, I came to peace with how I used R. I didn't need to do complicated statistics to be a real R user. And, in fact, even among people who do use R for complicated stats, R's capabilities as a more general purpose tool are extremely appealing. My goal today is to show you a few things that you can do with R that you may never have considered.  
+
+Now, before I get started, just one thing: not everything you will hear me talk about today is going to be new to you. It's impossible to choose twenty-five things that no one in a group of this size will be familiar with. But my hope is that you come away with at least a few new ideas for ways you can use R that you never previously considered. 
+:::
+
+# Accessing Data {.inverse}
+
+::: {.notes}
+Before you do any work in R, you need data. Let's begin by talking about ways that you can access data directly from R. 
+:::
+
+## Work with API packages: googlesheets4 {.inverse}
+
+:::{.big-number}
+2
+:::

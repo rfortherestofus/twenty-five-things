@@ -219,7 +219,7 @@ a > code {
 
 .big-number {
   position: absolute;
-  top: -300px;
+  top: -350px;
   left: -125px;
 }
 
@@ -232,6 +232,7 @@ a > code {
   z-index: -1; /* Behind other content */
   user-select: none; /* Prevent text selection */
   pointer-events: none; /* Don't interfere with clicks */
+  letter-spacing: -0.025em;
 }
 
 .shadow {

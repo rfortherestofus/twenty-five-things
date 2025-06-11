@@ -11,6 +11,8 @@ format:
     auto-animate: true
     slide-level: 4
     output-location: slide
+    spotlight:
+      presentingCursor: default
 knitr:
   opts_chunk:
     dev: "png"
@@ -25,6 +27,8 @@ title-slide-attributes:
   data-background-size: cover
 editor_options: 
   chunk_output_type: console
+revealjs-plugins:
+  - spotlight
 ---
 
 
@@ -34,7 +38,6 @@ editor_options:
 options(tigris_use_cache = TRUE)
 library(tidyverse)
 ```
-
 
 # Twenty-Five Things You Didn't Know You Could Do with R {.inverse .center}
 
@@ -48,6 +51,12 @@ But eventually I realized that R isn't just about stats. Or, more precisely, R c
 And the more I started talking with others about how I used R, they were, to my surprise, quite interested. Eventually, I came to peace with how I used R. I didn't need to do complicated statistics to be a real R user. And, in fact, even among people who do use R for complicated stats, R's capabilities as a more general purpose tool are extremely appealing. My goal today is to show you a few things that you can do with R that you may never have considered.  
 
 Now, before I get started, just one thing: not everything you will hear me talk about today is going to be new to you. It's impossible to choose twenty-five things that no one in a group of this size will be familiar with. But my hope is that you come away with at least a few new ideas for ways you can use R that you never previously considered. 
+:::
+
+---
+
+::: {.r-fit-text}
+https://rfortherestofus.com/cascadia2025
 :::
 
 # Access Data Automagically {.inverse background-image="assets/automagically.jpg"}
@@ -102,12 +111,16 @@ And having data in Google Sheets allows me to use the {googlesheets4} package to
 
 ---
 
-![](assets/pre-survey-graph.png){.r-stretch fig-align="center"}
+### Spring 2024
+
+![](assets/survey-spring-2024.png){.r-stretch fig-align="center"}
+
+### Fall 2024
+
+![](assets/survey-fall-2024.png){.r-stretch fig-align="center"}
 
 ::: {.notes}
 This means that every time a new response comes in, it just takes you rerunning your code in order to create new analysis, data viz, etc. 
-
-TODO: Add multiple screenshots to show responses in multiple cohorts
 
 **Resources**
 
@@ -148,6 +161,10 @@ Another common tool for those collecting surveys is Qualtrics. And, fortunately 
 ::: {.notes}
 A third way that I like to connect directly to my data source is with the {tidycensus} package. I work with a lot of data from the Census Bureau. 
 :::
+
+---
+
+![](assets/largest-communities-oregon.png)
 
 ---
 
@@ -451,13 +468,22 @@ penguins_bar_chart
 Creating a theme is a great way to handle the look and feel of things like titles, axis text, grid lines, etc. What themes do not change is text added through geoms. 
 :::
 
+
+
+
 ---
 
 ::: {.r-fit-text}
 ```{r}
 #| output-location: slide
 penguins_bar_chart +
-  theme_dk(base_family = "IBM Plex Mono", base_size = 10)
+  theme_dk(base_family = "IBM Plex Mono", base_size = 12) +
+  geom_text(
+    aes(label = avg_bill_length_formatted),
+    vjust = 1.5,
+    color = "white",
+    size = 4
+  )
 ```
 :::
 
@@ -468,18 +494,20 @@ When I run my code I get a plot that uses IBM Plex Mono everywhere except where 
 :::
 
 
+
 ---
 
 ::: {.r-fit-text}
 ```{r}
 #| output-location: slide
 penguins_bar_chart +
-  theme_dk(base_family = "IBM Plex Mono", base_size = 10) +
+  theme_dk(base_family = "IBM Plex Mono", base_size = 12) +
   geom_text(
     aes(label = avg_bill_length_formatted),
     vjust = 1.5,
     color = "white",
-    family = "IBM Plex Mono"
+    family = "IBM Plex Mono",
+    size = 4
   )
 ```
 :::
@@ -512,10 +540,7 @@ title: "Penguins Report"
 ```
 
 ```{r}
-theme_dk <- function(
-  base_family = "Inter Tight",
-  base_size = 14
-    ) {}
+theme_dk <- function()
 ```
 
 ```{r}
@@ -525,7 +550,13 @@ update_geom_defaults(geom = "text", aes(family = "IBM Plex Mono"))
 ```
 
 ```{r}
-penguins_bar_chart
+penguins_bar_chart +
+  geom_text(
+    aes(label = avg_bill_length_formatted),
+    vjust = 1.5,
+    color = "white",
+    size = 4
+  )
 ```
 ````
 
@@ -537,7 +568,7 @@ Just put this code at the top of your R script or Quarto document and all of you
 
 ```{r}
 #| echo: false
-theme_set(theme_dk())
+theme_set(theme_dk(base_family = "IBM Plex Mono", base_size = 12))
 
 update_geom_defaults(geom = "text", aes(family = "IBM Plex Mono"))
 
@@ -546,7 +577,7 @@ penguins_bar_chart +
     aes(label = avg_bill_length_formatted),
     vjust = 1.5,
     color = "white",
-    family = "IBM Plex Mono"
+    size = 4
   )
 ```
 
@@ -790,8 +821,8 @@ pps_elementary_schools_near_libraries <-
   pps_elementary_schools |>
   st_join(portland_libraries_one_mile_buffer) |>
   mutate(has_nearby_library = case_when(
-    is.na(library) ~ "Within one mile of library",
-    .default = "Not within one mile of library"
+    is.na(library) ~ "Not within one mile of library",
+    .default = "Within one mile of library"
   )) |>
   select(school, has_nearby_library)
 ```
@@ -808,7 +839,9 @@ pps_elementary_schools_near_libraries
 
 ```{r}
 #| echo: false
-#| height: 400px
+
+# TODO: Center map
+
 maplibre() |>
   add_fill_layer(
     source = portland_libraries_one_mile_buffer,
@@ -850,12 +883,16 @@ maplibre() |>
 11
 :::
 
+::: {.notes}
+If you saw the interactive maps that I just showed and are wondering how I made, here's how. First, let me just point out that you can make interactive maps with R. There are many packages to do so, the most popular of which is {leaflet}. However, the one that I'm using, and which I'm a big fan of, is called {mapgl}. Using {mapgl}, I can make maps that I can embed in slides or, indeed, any HTML-based output. 
+:::
+
 ---
 
 ```{r}
 library(mapgl)
 
-maplibre(bounds = pps_elementary_schools_near_libraries) 
+maplibre(bounds = pps_elementary_schools_near_libraries)
 ```
 
 ---
@@ -868,7 +905,7 @@ maplibre(bounds = pps_elementary_schools_near_libraries) |>
     fill_opacity = 0.5,
     tooltip = "library",
     id = "portland_libraries"
-  ) 
+  )
 ```
 
 ---
@@ -890,7 +927,7 @@ maplibre(bounds = pps_elementary_schools_near_libraries) |>
     ),
     tooltip = "school",
     id = "schools"
-  ) 
+  )
 ```
 
 ---
@@ -971,7 +1008,7 @@ Whatever else you do in R, you need to report your results. As a tool designed f
 :::
 
 ::: {.notes}
-When I teach people to use Quarto, I always start with simple outputs: single HTML files, PDFs, and Word documents. But Quarto can go beyond single documents. You can build a full website with Quarto, a dashboard, slides, and much more. 
+When I teach people to use Quarto, I always start with simple outputs: single HTML files, PDFs, and Word documents. But Quarto can go beyond single documents. You can build a full website with Quarto, slides, and much more. 
 :::
 
 
@@ -996,7 +1033,7 @@ format: html
 ```{yaml}
 ---
 title: "Median Income Presentation"
-format: html
+format: revealjs
 ---
 ```
 
@@ -1129,6 +1166,10 @@ Creating reports in Quarto is just the first step. You also need to share them. 
 
 ---
 
+::: {.r-fit-text}
+https://cascadia2025.rfortherestofus.com
+:::
+
 ## Make PDFs with Typst {.inverse}
 
 :::{.big-number}
@@ -1138,11 +1179,13 @@ Creating reports in Quarto is just the first step. You also need to share them. 
 ::: {.notes}
 Most people, when they think about making PDFs in Quarto, immediately think Latex. If this is enough to put you off from making PDFs in R, please know there is a new alternative. Known as typst, it is a modern reimagining of Latex. 
 
-TODO: Show WVC screenshot
-
 **Resources**
 - My talk
 :::
+
+---
+
+
 
 ---
 
@@ -1243,7 +1286,7 @@ Consequat occaecat mollit velit aliquip. etc ...
 
 ---
 
-# Automate all the Things  {.inverse background-image="assets/automate.jpg" background-opacity="0.5"}
+# Automate all the Things  {.inverse background-image="assets/automate.jpg"}
 
 ## Email Your Reports Directly from R {.inverse}
 
@@ -1359,7 +1402,7 @@ jobs:
 ```
 
 
-## Use R to Work With Rendered Files {.inverse}
+## Use R to Work With Files Created in R {.inverse}
 
 :::{.big-number}
 18
@@ -1389,6 +1432,7 @@ Speaking of automation, I often have to move files around. For example, when wor
 #| eval: false
 library(fs)
 library(zip)
+library(tidyverse)
 
 county_pages <- dir_ls("outputs/pages/county/")
 
@@ -1415,7 +1459,7 @@ drive_upload(all_pages_zip)
 :::
 
 
-# Use AI to Write Better Code  {.inverse background-image="assets/ai-write-code.jpg" background-opacity="0.5"}
+# Use AI to Write Better Code  {.inverse background-image="assets/ai-write-code.jpg"}
 
 ::: {.notes}
 Let's finish off by talking about ways that you can use large language models when working with R. Now I'm not an AI hype boy here to tell you that this or that model will blow your mind. And, to be honest, I'm actually a bit hesitant to discuss AI at all because what I tell you today may already be out of date. That said, I think there are some foundational ways that you can use LLMs that will stand the test of time. 
@@ -1434,8 +1478,6 @@ My initial foray into using LLMs to work with code was, as I suspect was the cas
 > Please answer the following R question. When I program, I always like to use the tidyverse. Please don't ever give me base R solutions. Please also always use the native pipe (|>) not the tidyverse pipe (|>).
 
 You can paste in instructions like this each time you work with your AI tool of choice. You can create custom GPTs in ChatGPT to save these custom instructions. I use a tool called Raycast for working with LLMs and it has a feature that allows me to create a custom AI prompt with these insturctions.
-
-TODO: Add screenshot of instructions
 
 Every time I have a question for AI, I call up my AI chat preset, which has my instructions embedded in it, and get out answers tailored to my desired style of coding. 
 
@@ -1475,6 +1517,7 @@ Working with a tool like Raycast or ChatGPT requires you to go outside of your c
 
 <video
   data-autoplay
+  loop
   src="assets/gh-copilot.mp4"
 ></video>
 
@@ -1482,10 +1525,11 @@ Working with a tool like Raycast or ChatGPT requires you to go outside of your c
 
 <video
   data-autoplay
+  loop
   src="assets/windsurf.mp4"
 ></video>
 
-## Give AI Access to Your Data {.inverse}
+## Show AI Your Data {.inverse}
 
 :::{.big-number}
 21
@@ -1503,9 +1547,15 @@ In our conversation, Simon explained this further, saying that, when asking a qu
 - https://simonpcouch.github.io/gander/
 :::
 
----
+### {.inverse}
 
-# Use AI for Data Analysis  {.inverse background-image="assets/ai-analysis.jpg" background-opacity="0.5"}
+<video
+  data-autoplay
+  loop
+  src="assets/gander.mp4"
+></video>
+
+# Use AI for Data Analysis  {.inverse background-image="assets/ai-analysis.jpg"}
 
 ::: {.notes}
 LLMs are great for helping you write code to analyze your data. They can also do some of the data analysis for you. 
@@ -1524,10 +1574,6 @@ With that said, the area I have found LLMs to be most helpful is with qualitativ
 
 ::: {.notes}
 The {mall} package can also translate text. If you get responses in multiple languages, you can easily translate them to English. 
-
-TODO: Add examples
-
-TODO: Show translating text and then summarizing
 :::
 
 ---
@@ -1591,8 +1637,6 @@ survey_translated |>
 ::: {.notes}
 If you've ever conducted a survey or simply asked an open-ended question and got more text back than you could analyze by hand, why not try using AI for a quick and dirty analysis? The {mall} package lets you take long text and summarize it down to a shorter length.
 
-TODO: Add example
-
 **References**
 - https://mlverse.github.io/mall/#summarize
 :::
@@ -1629,8 +1673,6 @@ survey_translated_summary |>
 The {mall} package provides some great out-of-the-box prompts you can use. You can also create your own prompts. I've used the {ellmer} package to interact directly with LLMs. 
 
 Here, for example, I created my own function using {ellmer} to identify themes from a set of survey responses. 
-
-TODO: Add example
 :::
 
 ---
@@ -1696,17 +1738,25 @@ efficiency in managing large datasets, such as through tools like rdata.table. T
 and the wide variety of packages further contribute to its functionality.
 ```
 
-# Join the Community {.inverse background-image="assets/community.jpg" background-opacity="0.5"}
+::: {.notes}
+https://www.garrickadenbuie.com/blog/llm-work-summary/
+:::
+
+# {.inverse}
+
+::: {.notes}
+I've now given you 24 things that you perhaps didn't know you could do with R. All of them are technical. But I'd be remiss if I didn't mention the one thing that you can do with R that is, in fact, the opposite of technical. 
+
+When I started learning R, I never expected to find such a strong, welcoming community. But that's exactly what I've found. R has technical power, sure. But it also has the ability to bring a wide range of people together on a beautiful Saturday to sit all day in an air conditioned room.
+:::
+
+# Join the Community {.inverse}
 
 :::{.big-number}
 25
 :::
 
 ::: {.notes}
-I've now given you 24 things that you perhaps didn't know you could do with R. All of them are technical. But I'd be remiss if I didn't mention the one thing that you can do with R that is, in fact, the opposite of technical. 
-
-When I started learning R, I never expected to find such a strong, welcoming community. But that's exactly what I've found. R has technical power, sure. But it also has the ability to bring a wide range of people together on a beautiful Saturday to sit all day in an air conditioned room.
-
 You may not have ever considered it, but R can help you find your community. As you learn from others today, I hope that you will consider giving back to maintain and improve the wonderful R community that we all gain so much from. 
 
 That I, a qualitative researcher who, for so long, thought of myself as not being a "real" user am up here today is in no small part because of the encouragement I have received from the R community. It may be a technical tool that brings us together in the first place, but it is the community that keeps us together in the long run. 

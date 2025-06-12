@@ -27,8 +27,8 @@ title-slide-attributes:
   data-background-size: cover
 editor_options: 
   chunk_output_type: console
-revealjs-plugins:
-  - spotlight
+# revealjs-plugins:
+#   - spotlight
 ---
 
 

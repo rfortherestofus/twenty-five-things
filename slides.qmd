@@ -109,7 +109,6 @@ survey_data <-
 And having data in Google Sheets allows me to use the {googlesheets4} package to access that data directly from R. 
 :::
 
----
 
 ### Spring 2024
 
@@ -164,7 +163,9 @@ A third way that I like to connect directly to my data source is with the {tidyc
 
 ---
 
-![](assets/largest-communities-oregon.png)
+::: {.center-slide}
+![](assets/largest-communities-oregon.png){.shadow .rounded}
+:::
 
 ---
 
@@ -320,11 +321,6 @@ penguins_bar_chart <-
     y = avg_bill_length
   )) +
   geom_col() +
-  # geom_text(
-  #   aes(label = avg_bill_length_formatted),
-  #   vjust = 1.5,
-  #   color = "white"
-  # ) +
   labs(
     title = "Average bill length of penguins by island",
     subtitle = "Data shown in millimeters",
@@ -333,7 +329,7 @@ penguins_bar_chart <-
 ```
 
 ```{r}
-#| echo: false
+#| output-location: fragment
 penguins_bar_chart
 ```
 
@@ -710,6 +706,7 @@ portland_libraries
 
 ```{r}
 #| echo: false
+#| dpi: 140
 library(mapgl)
 
 maplibre(bounds = portland_libraries) |>
@@ -742,6 +739,7 @@ portland_libraries_one_mile_buffer
 
 ```{r}
 #| echo: false
+#| dpi: 140
 maplibre(bounds = portland_libraries_one_mile_buffer) |>
   add_fill_layer(
     source = portland_libraries_one_mile_buffer,
@@ -795,6 +793,7 @@ pps_elementary_schools
 
 ```{r}
 #| echo: false
+#| dpi: 140
 maplibre(bounds = pps_elementary_schools) |>
   add_circle_layer(
     source = pps_elementary_schools,
@@ -839,10 +838,9 @@ pps_elementary_schools_near_libraries
 
 ```{r}
 #| echo: false
+#| dpi: 140
 
-# TODO: Center map
-
-maplibre() |>
+maplibre(bounds = portland_libraries_one_mile_buffer) |>
   add_fill_layer(
     source = portland_libraries_one_mile_buffer,
     fill_color = "#7570b3",
@@ -890,6 +888,7 @@ If you saw the interactive maps that I just showed and are wondering how I made,
 ---
 
 ```{r}
+#| dpi: 140
 library(mapgl)
 
 maplibre(bounds = pps_elementary_schools_near_libraries)
@@ -898,6 +897,7 @@ maplibre(bounds = pps_elementary_schools_near_libraries)
 ---
 
 ```{r}
+#| dpi: 140
 maplibre(bounds = pps_elementary_schools_near_libraries) |>
   add_fill_layer(
     source = portland_libraries_one_mile_buffer,
@@ -911,6 +911,7 @@ maplibre(bounds = pps_elementary_schools_near_libraries) |>
 ---
 
 ```{r}
+#| dpi: 140
 maplibre(bounds = pps_elementary_schools_near_libraries) |>
   add_circle_layer(
     source = pps_elementary_schools_near_libraries,
@@ -933,7 +934,7 @@ maplibre(bounds = pps_elementary_schools_near_libraries) |>
 ---
 
 ```{r}
-#| eval: false
+#| dpi: 140
 maplibre(bounds = pps_elementary_schools_near_libraries) |>
   add_categorical_legend(
     values = c(
@@ -952,7 +953,7 @@ maplibre(bounds = pps_elementary_schools_near_libraries) |>
 ---
 
 ```{r}
-#| echo: false
+#| dpi: 140
 maplibre(bounds = pps_elementary_schools_near_libraries) |>
   add_fill_layer(
     source = portland_libraries_one_mile_buffer,
@@ -990,9 +991,6 @@ maplibre(bounds = pps_elementary_schools_near_libraries) |>
     circular_patches = TRUE
   )
 ```
-
-
-
 
 
 # Report in New Ways with Quarto  {.inverse background-image="assets/report.jpg"}
@@ -1103,17 +1101,16 @@ A recent addition to the Quarto landscape is brand.yml. This framework allows yo
 
 ---
 
+`_brand.yml`
+
 ```{yaml}
 meta:
   name: R for the Rest of Us
   link: https://rfortherestofus.com
 
 color:
-  palette:
-    dark-blue: "#404e6b"
-    blue: "#6cabdd"
-  foreground: dark-blue
-  primary: blue
+  foreground: "#404e6b"
+  primary: "#6cabdd"
 
 typography:
   fonts:
@@ -1185,9 +1182,7 @@ Most people, when they think about making PDFs in Quarto, immediately think Late
 
 ---
 
-
-
----
+![](assets/typst-report.png){.shadow .rounded}
 
 ---
 
@@ -1352,15 +1347,18 @@ gm_send_message(email_report)
 :::
 
 ::: {.notes}
-In 2020, at the start of the COVID pandemic, we were working with Prosper Portland, the small business development agency for the city of Portland. They had quickly started a grant program for businesses impacted by the pandemic. It was, like so much in those early days of COVID, thrown together quickly. They set up an application form and they wanted an easy way to see a summary of information about businesses seeking relief. We wrote code to pull data from a Google Sheet and create a summary report. And, best of all, we set it up to email the report directly to Prosper Portland staff using the {gmailr} package. 
+When I talked about the daily reports we created for Prosper Portland, I left out one key thing: once we set up the code, we never ran it manually. How did we run the code to pull in the data, render the reports, and email them to Prosper Portland? With GitHub Actions. If you've never heard of GitHub Actions, it's a tool that runs code on your behalf. You add a special YAML file to your GitHub repo and your code runs on a schedule. Magic!
+
+TODO: Show YAML file: https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/.github/workflows/email_report.yaml
 
 **Resources**
-- https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/render_gmail.R
-- https://pkgs.rstudio.com/blastula/
+- R for the Rest of Us Blog post
+- Albert Rapp blog post
 :::
 
 ---
 
+`send-report.yaml`
 
 ```{yaml}
 #| eval: false
@@ -1382,6 +1380,7 @@ jobs:
 
 ---
 
+`send-report.yaml`
 
 ```{yaml}
    steps:
@@ -1414,6 +1413,25 @@ Speaking of automation, I often have to move files around. For example, when wor
 **Resources**
 - 250 plots blog post
 - https://albert-rapp.de/posts/36_fs_package/
+:::
+
+---
+
+```{r}
+#| echo: false
+#| eval: false
+
+pdftools::pdf_subset(input = "/Users/davidkeyes/Documents/Work/clients/TFFF/OBTN/OBTN 2024.pdf",
+                     output = here::here("assets/obtn-subset.pdf"),
+                     pages = c(1, 18:21, 113:114))
+
+rfortherestofus::pdf_to_gif(pdf_location = here::here("assets/obtn-subset.pdf"),
+                            gif_file_path = "assets",
+                            gif_file_name = "obtn.gif")
+```
+
+:::{.center-slide}
+![](assets/obtn.gif)
 :::
 
 ---
@@ -1545,6 +1563,12 @@ In our conversation, Simon explained this further, saying that, when asking a qu
 **Resources**
 - Podcast episode
 - https://simonpcouch.github.io/gander/
+:::
+
+---
+
+::: {.large}
+Data science differs a bit from software engineering here, though, in that the state of your R environment is just as important (or more so) than the contents of your files.
 :::
 
 ### {.inverse}

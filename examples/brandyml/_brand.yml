@@ -3,11 +3,8 @@ meta:
   link: https://rfortherestofus.com
 
 color:
-  palette:
-    dark-blue: "#404e6b"
-    blue: "#6cabdd"
-  foreground: dark-blue
-  primary: blue
+  foreground: "#404e6b"
+  primary: "#6cabdd"
 
 typography:
   fonts:

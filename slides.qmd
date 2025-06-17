@@ -429,9 +429,9 @@ penguins_bar_chart +
 ````{markdown}
 #| eval: false
 #| output-location: default
-```
+---
 title: "Penguins Report"
-```
+---
 
 ```{r}
 theme_dk <- function(base_family = "Inter Tight", base_size = 14) {}
@@ -533,9 +533,9 @@ Here, for example, you can set the default family for all geom_text() instances 
 ````{markdown}
 #| eval: false
 #| output-location: default
-```
+---
 title: "Penguins Report"
-```
+---
 
 ```{r}
 theme_dk <- function()

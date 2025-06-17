@@ -1421,18 +1421,17 @@ Speaking of automation, I often have to move files around. For example, when wor
 #| echo: false
 #| eval: false
 
-pdftools::pdf_subset(input = "/Users/davidkeyes/Documents/Work/clients/TFFF/OBTN/OBTN 2024.pdf",
-                     output = here::here("assets/obtn-subset.pdf"),
-                     pages = c(1, 18:21, 113:114))
-
-rfortherestofus::pdf_to_gif(pdf_location = here::here("assets/obtn-subset.pdf"),
-                            gif_file_path = "assets",
-                            gif_file_name = "obtn.gif")
+# pdftools::pdf_subset(input = "/Users/davidkeyes/Documents/Work/clients/TFFF/OBTN/OBTN 2024.pdf",
+#                      output = here::here("assets/obtn-subset.pdf"),
+#                      pages = c(1, 18:21, 113:114))
+# 
+# rfortherestofus::pdf_to_gif(pdf_location = here::here("assets/obtn-subset.pdf"),
+#                             gif_file_path = "assets",
+#                             gif_file_name = "obtn.gif")
 ```
 
-:::{.center-slide}
-![](assets/obtn.gif)
-:::
+
+![](assets/obtn-pages.png)
 
 ---
 

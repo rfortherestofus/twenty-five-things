@@ -73,11 +73,8 @@ Before you do any work in R, you need data. Let's begin by talking about ways th
 
 ::: {.notes}
 As a social scientist, I conduct a lot of surveys. Now that I use R, one of my favorite ways to conduct surveys is with Google Forms. 
-
-**Resources**
-
-- Book chapter
 :::
+
 
 ---
 
@@ -98,6 +95,7 @@ Using Google Forms allows me to put survey responses directly into Google Sheets
 ::: {.r-fit-text}
 ```{r}
 #| eval: false
+#| output-location: default
 library(googlesheets4)
 
 survey_data <-
@@ -139,6 +137,7 @@ This means that every time a new response comes in, it just takes you rerunning 
 ::: {.r-fit-text}
 ```{r}
 #| eval: false
+#| output-location: default
 library(qualtRics)
 
 survey_data <-
@@ -164,7 +163,7 @@ A third way that I like to connect directly to my data source is with the {tidyc
 ---
 
 ::: {.center-slide}
-![](assets/largest-communities-oregon.png){.shadow .rounded}
+![](assets/largest-communities-oregon.png){.shadow .rounded fig-align="center"}
 :::
 
 ---
@@ -419,9 +418,6 @@ penguins_bar_chart +
 :::
 
 
-
----
-
 ## Use Your Theme Everywhere {.inverse}
 
 :::{.big-number}
@@ -432,6 +428,7 @@ penguins_bar_chart +
 
 ````{markdown}
 #| eval: false
+#| output-location: default
 ```
 title: "Penguins Report"
 ```
@@ -451,7 +448,11 @@ penguins_bar_chart
 
 ---
 
-![](/assets/penguins_bar_chart-with-theme 1.png){.r-stretch fig-align="center"}
+```{r}
+#| echo: false
+penguins_bar_chart +
+  theme_dk()
+```
 
 ## Make Your Text Consistent with Your Theme {.inverse}
 
@@ -531,6 +532,7 @@ Here, for example, you can set the default family for all geom_text() instances 
 
 ````{markdown}
 #| eval: false
+#| output-location: default
 ```
 title: "Penguins Report"
 ```
@@ -600,6 +602,7 @@ R is renowned for its graph-making capabilities. Did you know that you can use g
 
 ::: {.r-fit-text}
 ```{r}
+#| output-location: default
 library(tidycensus)
 
 median_income_by_county <-
@@ -615,7 +618,7 @@ median_income_by_county <-
 
 ::: {.r-fit-text}
 ```{r}
-#| output-location: fragment
+#| output-location: default
 median_income_by_county
 ```
 :::
@@ -724,13 +727,14 @@ maplibre(bounds = portland_libraries) |>
 ```{r}
 portland_libraries_one_mile_buffer <-
   portland_libraries |>
-  st_buffer(1 * 1609.34)
+  st_buffer(1609.34)
 ```
 
 . . .
 
 ```{r}
 #| echo: false
+#| output-location: default
 portland_libraries_one_mile_buffer
 ```
 
@@ -778,6 +782,7 @@ read_csv("data/sc091aow.csv") |>
 
 
 ```{r}
+#| output-location: default
 pps_elementary_schools <-
   read_sf("data/pps_elementary_schools.geojson")
 ```
@@ -816,6 +821,7 @@ pps_elementary_schools |>
 
 
 ```{r}
+#| output-location: default
 pps_elementary_schools_near_libraries <-
   pps_elementary_schools |>
   st_join(portland_libraries_one_mile_buffer) |>
@@ -830,6 +836,7 @@ pps_elementary_schools_near_libraries <-
 
 ```{r}
 #| echo: false
+#| output-location: default
 pps_elementary_schools_near_libraries
 ```
 
@@ -1046,6 +1053,7 @@ format: revealjs
 `index.qmd`
 
 ```{yaml}
+#| output-location: default
 ---
 title: "Median Income"
 ---
@@ -1056,6 +1064,7 @@ title: "Median Income"
 `about.qmd`
 
 ```{yaml}
+#| output-location: default
 ---
 title: "About"
 ---
@@ -1066,6 +1075,7 @@ title: "About"
 `_quarto.yml`
 
 ```{yaml}
+#| output-location: default
 project:
   type: website
 
@@ -1104,6 +1114,7 @@ A recent addition to the Quarto landscape is brand.yml. This framework allows yo
 `_brand.yml`
 
 ```{yaml}
+#| output-location: default
 meta:
   name: R for the Rest of Us
   link: https://rfortherestofus.com
@@ -1182,7 +1193,7 @@ Most people, when they think about making PDFs in Quarto, immediately think Late
 
 ---
 
-![](assets/typst-report.png){.shadow .rounded}
+![](assets/typst-report.png){.shadow .rounded fig-align="center"}
 
 ---
 
@@ -1190,6 +1201,7 @@ Most people, when they think about making PDFs in Quarto, immediately think Late
 
 ````{markdown}
 #| eval: false
+#| output-location: default
 ---
 title: "Housing Data Profiles"
 
@@ -1214,6 +1226,7 @@ Consequat occaecat mollit velit aliquip. etc ...
 
 ````{markdown}
 #| eval: false
+#| output-location: default
 #show: psc-report.with(
   $if(title)$
     title: "$title$",
@@ -1230,6 +1243,7 @@ Consequat occaecat mollit velit aliquip. etc ...
 
 ````{markdown}
 #| eval: false
+#| output-location: default
 #let psc-report(
   title: "title",
   town : "town",
@@ -1277,9 +1291,8 @@ Consequat occaecat mollit velit aliquip. etc ...
 
 ---
 
-![](assets/typst-report.png){.shadow .rounded}
+![](assets/typst-report.png){.shadow .rounded fig-align="center"}
 
----
 
 # Automate all the Things  {.inverse background-image="assets/automate.jpg"}
 
@@ -1301,6 +1314,7 @@ In 2020, at the start of the COVID pandemic, we were working with Prosper Portla
 
 ```{r}
 #| eval: false
+#| output-location: default
 
 library(tidyverse)
 library(quarto)
@@ -1318,6 +1332,7 @@ quarto_render(
 ::: {.r-fit-text}
 ```{r}
 #| eval: false
+#| output-location: default
 
 library(gmailr)
 
@@ -1337,8 +1352,6 @@ gm_send_message(email_report)
 :::
 
 
-
----
 
 ## Run Your Code Without Lifting a Finger {.inverse}
 
@@ -1362,11 +1375,13 @@ TODO: Show YAML file: https://github.com/rfortherestofus/pp-covid-biz-relief/blo
 
 ```{yaml}
 #| eval: false
+#| output-location: default
 name: Render Report and Send It
 
 on:
   schedule:
     - cron:  '00 14 * * 1-5'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -1383,6 +1398,7 @@ jobs:
 `send-report.yaml`
 
 ```{yaml}
+#| output-location: default
    steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -1430,8 +1446,7 @@ Speaking of automation, I often have to move files around. For example, when wor
 #                             gif_file_name = "obtn.gif")
 ```
 
-
-![](assets/obtn-pages.png)
+![](assets/obtn-pages.png){.shadow .rounded fig-align="center"}
 
 ---
 
@@ -1447,6 +1462,7 @@ Speaking of automation, I often have to move files around. For example, when wor
 ::: {.r-fit-text}
 ```{r}
 #| eval: false
+#| output-location: default
 library(fs)
 library(zip)
 library(tidyverse)
@@ -1457,7 +1473,7 @@ measure_pages <- dir_ls("outputs/pages/measure/")
 
 all_pages_zip <-
   zip(
-    zipfile = str_glue("outputs/zip/{obtn_year}-obtn-files-{today()}.zip"),
+    zipfile = str_glue("outputs/zip/obtn-files-{today()}.zip"),
     files = c(county_pages, measure_pages)
   )
 ```
@@ -1468,6 +1484,7 @@ all_pages_zip <-
 ::: {.r-fit-text}
 ```{r}
 #| eval: false
+#| output-location: default
 
 library(googledrive)
 
@@ -1567,7 +1584,7 @@ In our conversation, Simon explained this further, saying that, when asking a qu
 ---
 
 ::: {.large}
-Data science differs a bit from software engineering here, though, in that the state of your R environment is just as important (or more so) than the contents of your files.
+Data science differs a bit from software engineering ... in that the state of your R environment is just as important (or more so) than the contents of your files.
 :::
 
 ### {.inverse}
@@ -1626,6 +1643,7 @@ survey_spanish <-
 
 ```{r}
 #| echo: false
+#| output-location: default
 
 survey_spanish |>
   gt::gt() |>
@@ -1635,6 +1653,7 @@ survey_spanish |>
 ---
 
 ```{r}
+#| output-location: default
 library(mall)
 
 survey_translated <-
@@ -1668,6 +1687,7 @@ If you've ever conducted a survey or simply asked an open-ended question and got
 
 ::: {.r-fit-text}
 ```{r}
+#| output-location: default
 survey_translated_summary <-
   survey_translated |>
   llm_summarize(english, max_words = 5, pred_name = "summary")
@@ -1702,6 +1722,7 @@ Here, for example, I created my own function using {ellmer} to identify themes f
 
 ::: {.r-fit-text}
 ```{r}
+#| output-location: default
 library(ellmer)
 
 identify_themes <- function(text) {
@@ -1720,6 +1741,7 @@ identify_themes <- function(text) {
 
 ::: {.r-fit-text}
 ```{r}
+#| output-location: default
 survey_translated_combined <-
   survey_translated |>
   pull(english) |>

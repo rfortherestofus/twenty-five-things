@@ -8,10 +8,7 @@ color:
 
 typography:
   fonts:
-    - family: Inter
+    - family: Inter Tight
       source: google
-    - family: IBM Plex Mono
-      source: google
-  base: Inter
-  headings: Inter
-  monospace: IBM Plex Mono
+  base: Inter Tight
+  headings: Inter Tight

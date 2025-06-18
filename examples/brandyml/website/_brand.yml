@@ -3,18 +3,15 @@ meta:
   link: https://rfortherestofus.com
 
 color:
-  palette:
-    dark-blue: "#404e6b"
-    blue: "#6cabdd"
-  foreground: dark-blue
-  primary: blue
+  foreground: "#404e6b"
+  primary: "#6cabdd"
 
 typography:
   fonts:
-    - family: Inter
+    - family: Inter Tight
       source: google
     - family: IBM Plex Mono
       source: google
-  base: Inter
-  headings: Inter
+  base: Inter Tight
+  headings: Inter Tight
   monospace: IBM Plex Mono

@@ -25,10 +25,13 @@ execute:
 title-slide-attributes:
   data-background-image: assets/rru-hex-bg-gradient-dark.svg
   data-background-size: cover
+include-in-header:
+  - text: |
+      <link rel = "shortcut icon" href = "rru-logo-blue.svg" />
 editor_options: 
   chunk_output_type: console
-# revealjs-plugins:
-#   - spotlight
+revealjs-plugins:
+  - spotlight
 ---
 
 
@@ -75,15 +78,20 @@ Before you do any work in R, you need data. Let's begin by talking about ways th
 As a social scientist, I conduct a lot of surveys. Now that I use R, one of my favorite ways to conduct surveys is with Google Forms. 
 :::
 
+---
+
+![](assets/googlesheets4.png){.shadow .rounded fig-align="center"}
+
+
 
 ---
 
-![](assets/google-form-v2.png){.r-stretch fig-align="center"}
+![](assets/google-form-v2.png){.r-stretch .shadow .rounded fig-align="center"}
 
 
 ---
 
-![](assets/google-sheet-v2.png){.r-stretch fig-align="center"}
+![](assets/google-sheet-v2.png){.r-stretch .shadow .rounded fig-align="center"}
 
 ::: {.notes}
 Using Google Forms allows me to put survey responses directly into Google Sheets. 
@@ -118,10 +126,6 @@ And having data in Google Sheets allows me to use the {googlesheets4} package to
 
 ::: {.notes}
 This means that every time a new response comes in, it just takes you rerunning your code in order to create new analysis, data viz, etc. 
-
-**Resources**
-
-- Book chapter
 :::
 
 
@@ -131,6 +135,12 @@ This means that every time a new response comes in, it just takes you rerunning 
 :::{.big-number}
 2
 :::
+
+---
+
+![](assets/qualtrics-package.png){.shadow .rounded .r-stretch fig-align="center"}
+
+
 
 ---
 
@@ -155,6 +165,9 @@ Another common tool for those collecting surveys is Qualtrics. And, fortunately 
 3
 :::
 
+---
+
+![](assets/tidycensus.png){.shadow .rounded fig-align="center"}
 
 ::: {.notes}
 A third way that I like to connect directly to my data source is with the {tidycensus} package. I work with a lot of data from the Census Bureau. 
@@ -168,7 +181,7 @@ A third way that I like to connect directly to my data source is with the {tidyc
 
 ---
 
-![](/assets/census-bureau-website.png){.r-stretch fig-align="center"}
+![](/assets/census-bureau-website.png){.shadow .rounded .r-stretch fig-align="center"}
 
 ::: {.notes}
 Before I used R, I would spend hours on the Census Bureau website, finding the data I needed, downloading it, and then working with it in Excel. 
@@ -196,6 +209,12 @@ But with the {tidycensus} package, I can connect directly to the Census Bureau, 
 This approach has proven particularly helpful in my work on the annual Oregon by the Numbers report, which relies heavily on data from the American Community Survey. 
 :::
 
+---
+
+::: {.center-slide}
+![](assets/largest-communities-oregon.png){.shadow .rounded fig-align="center"}
+:::
+
 ## Work with APIs to Access Data {.inverse}
 
 :::{.big-number}
@@ -209,7 +228,12 @@ Under the hood, the {googlesheets4}, {qualtRics}, and {tidycensus} packages conn
 
 ---
 
-![](/assets/dashboard.png){.r-stretch fig-align="center"}
+![](assets/httr2.png){.shadow .rounded fig-align="center"}
+
+
+---
+
+![](/assets/dashboard.png){.shadow .rounded fig-align="center"}
 
 ::: {.notes}
 For example, I have an internal dashboard I use to pull in data from multiple sources. 
@@ -219,6 +243,7 @@ For example, I have an internal dashboard I use to pull in data from multiple so
 
 ```{r}
 #| eval: false
+#| output-location: default
 library(httr2)
 
 fathom_api_key <- Sys.getenv("FATHOM_API_KEY")
@@ -263,7 +288,11 @@ There are other times when we want to access data and is there is no package to 
 
 ---
 
-![](/assets/world-cup-finals.png){.r-stretch fig-align="center"}
+![](assets/rvest.png){.shadow .rounded fig-align="center"}
+
+---
+
+![](/assets/world-cup-finals.png){.shadow .rounded .r-stretch fig-align="center"}
 
 ---
 
@@ -291,11 +320,6 @@ read_html("https://en.wikipedia.org/wiki/List_of_FIFA_World_Cup_finals") |>
 
 ::: {.notes}
 If you make plots in ggplot (and if you're here, I'm guessing you do), keeping them consistent and on brand can be challenging. Fortunately, this is where themes come in. If you've never tried to make your own ggplot theme, you should! It's surprisingly simple and with a few lines of code you can ensure that all of your plots are on brand.
-
-**Resources**
-
-- Jadey blog post
-- Book chapter
 :::
 
 
@@ -387,6 +411,7 @@ theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
 
 ```{r}
 #| eval: false
+#| output-location: default
 library(tidyverse)
 
 theme_dk <- function(base_family = "Inter Tight", base_size = 14) {
@@ -517,6 +542,7 @@ The way most people change this is by adding `family = "IBM Plex Mono"` within `
 
 ::: {.r-fit-text}
 ```{r}
+#| output-location: default
 update_geom_defaults(
   geom = "text",
   aes(family = "IBM Plex Mono")
@@ -591,11 +617,6 @@ penguins_bar_chart +
 
 ::: {.notes}
 R is renowned for its graph-making capabilities. Did you know that you can use ggplot, that same package you use to make graphs, to make maps? There is a special geom (geom_sf()) that allows you to make maps. And everything you have learned about ggplot applies to maps too: color and fill scales, themes, and more.
-
-**Resources**
-
-- Book chapter
-- Course
 :::
 
 ---
@@ -659,6 +680,10 @@ https://github.com/MichiganFitnessFoundation/mff-r-training/issues/74
 
 ---
 
+![](assets/sf.png){.shadow .rounded fig-align="center"}
+
+---
+
 ```{r}
 #| eval: false
 #| echo: false
@@ -688,9 +713,13 @@ portland_center_coords <-
   pull(value)
 ```
 
+### Which Elementary Schools in Portland are Within One Mile of a Public Library? {.center-slide}
+
+---
 
 ::: {.r-fit-text}
 ```{r}
+#| output-location: default
 library(sf)
 
 portland_libraries <- read_sf("data/portland_libraries.geojson")
@@ -701,6 +730,7 @@ portland_libraries <- read_sf("data/portland_libraries.geojson")
 
 ```{r}
 #| echo: false
+#| output-location: default
 portland_libraries
 ```
 
@@ -725,12 +755,12 @@ maplibre(bounds = portland_libraries) |>
 ---
 
 ```{r}
+#| output-location: default
 portland_libraries_one_mile_buffer <-
   portland_libraries |>
   st_buffer(1609.34)
 ```
 
-. . .
 
 ```{r}
 #| echo: false
@@ -894,6 +924,10 @@ If you saw the interactive maps that I just showed and are wondering how I made,
 
 ---
 
+![](assets/mapgl.png){.shadow .rounded fig-align="center"}
+
+---
+
 ```{r}
 #| dpi: 140
 library(mapgl)
@@ -1020,6 +1054,7 @@ When I teach people to use Quarto, I always start with simple outputs: single HT
 ---
 
 ```{yaml}
+#| output-location: default
 ---
 title: "Median Income Report"
 format: html
@@ -1036,6 +1071,7 @@ format: html
 ---
 
 ```{yaml}
+#| output-location: default
 ---
 title: "Median Income Presentation"
 format: revealjs
@@ -1103,11 +1139,11 @@ format: html
 
 ::: {.notes}
 A recent addition to the Quarto landscape is brand.yml. This framework allows you to add a single file, `_brand.yml`, to your project which lets you specify things like fonts, colors, logos, and more. Keeping your Quarto documents on brand has never been easier!
-
-**Resources**
-- brand.yml website
-- Podcast with Garrick
 :::
+
+---
+
+![](https://posit-dev.github.io/brand-yml/logos/wide/brand-yml-wide-color.png){fig-align="center"}
 
 ---
 
@@ -1125,13 +1161,10 @@ color:
 
 typography:
   fonts:
-    - family: Inter
+    - family: Inter Tight
       source: google
-    - family: IBM Plex Mono
-      source: google
-  base: Inter
-  headings: Inter
-  monospace: IBM Plex Mono
+  base: Inter Tight
+  headings: Inter Tight
 ```
 
 
@@ -1165,11 +1198,16 @@ Creating reports in Quarto is just the first step. You also need to share them. 
 
 ---
 
-![](assets/netlify-connect-github.png)
+![](assets/netlify.png){.shadow .rounded fig-align="center"}
+
 
 ---
 
-![](assets/netlify-deploy.png)
+![](assets/netlify-connect-github.png){.shadow .rounded fig-align="center"}
+
+---
+
+![](assets/netlify-deploy.png){.shadow .rounded fig-align="center"}
 
 
 ---
@@ -1186,10 +1224,11 @@ https://cascadia2025.rfortherestofus.com
 
 ::: {.notes}
 Most people, when they think about making PDFs in Quarto, immediately think Latex. If this is enough to put you off from making PDFs in R, please know there is a new alternative. Known as typst, it is a modern reimagining of Latex. 
-
-**Resources**
-- My talk
 :::
+
+---
+
+![](assets/typst.png){.shadow .rounded fig-align="center"}
 
 ---
 
@@ -1304,11 +1343,11 @@ Consequat occaecat mollit velit aliquip. etc ...
 
 ::: {.notes}
 In 2020, at the start of the COVID pandemic, we were working with Prosper Portland, the small business development agency for the city of Portland. They had quickly started a grant program for businesses impacted by the pandemic. It was, like so much in those early days of COVID, thrown together quickly. They set up an application form and they wanted an easy way to see a summary of information about businesses seeking relief. We wrote code to pull data from a Google Sheet and create a summary report. And, best of all, we set it up to email the report directly to Prosper Portland staff using the {gmailr} package. 
-
-**Resources**
-- https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/render_gmail.R
-- https://pkgs.rstudio.com/blastula/
 :::
+
+---
+
+![](assets/gmailr.png){.shadow .rounded fig-align="center"}
 
 ---
 
@@ -1352,6 +1391,10 @@ gm_send_message(email_report)
 :::
 
 
+---
+
+![](assets/blastula.png){.shadow .rounded fig-align="center"}
+
 
 ## Run Your Code Without Lifting a Finger {.inverse}
 
@@ -1361,12 +1404,6 @@ gm_send_message(email_report)
 
 ::: {.notes}
 When I talked about the daily reports we created for Prosper Portland, I left out one key thing: once we set up the code, we never ran it manually. How did we run the code to pull in the data, render the reports, and email them to Prosper Portland? With GitHub Actions. If you've never heard of GitHub Actions, it's a tool that runs code on your behalf. You add a special YAML file to your GitHub repo and your code runs on a schedule. Magic!
-
-TODO: Show YAML file: https://github.com/rfortherestofus/pp-covid-biz-relief/blob/master/.github/workflows/email_report.yaml
-
-**Resources**
-- R for the Rest of Us Blog post
-- Albert Rapp blog post
 :::
 
 ---
@@ -1395,7 +1432,7 @@ jobs:
 
 ---
 
-`send-report.yaml`
+`send-report.yaml` (continued)
 
 ```{yaml}
 #| output-location: default
@@ -1425,11 +1462,21 @@ jobs:
 
 ::: {.notes}
 Speaking of automation, I often have to move files around. For example, when working on the annual Oregon by the Numbers Report, I make a ton of plots that I have to share with the graphic designer who lays out the report. I used to manually copy all of these files and upload them to Google Drive. But then I came across the {fs} and {zip} packages. I use {fs} to create a list of all the files I've created, which I then pass to the {zip} package in order to create a zip file. And, if I'm feeling extra fancy, I upload the zip file automatically to Google Drive using the {googledrive} package. With all of this, I just have to run my code and share a single link with the designer.
-
-**Resources**
-- 250 plots blog post
-- https://albert-rapp.de/posts/36_fs_package/
 :::
+
+---
+
+![](assets/fs.png){.shadow .rounded fig-align="center"}
+
+---
+
+![](assets/zip-package.png){.shadow .rounded fig-align="center"}
+
+---
+
+![](assets/googledrive.png){.shadow .rounded fig-align="center"}
+
+
 
 ---
 
@@ -1465,7 +1512,6 @@ Speaking of automation, I often have to move files around. For example, when wor
 #| output-location: default
 library(fs)
 library(zip)
-library(tidyverse)
 
 county_pages <- dir_ls("outputs/pages/county/")
 
@@ -1514,9 +1560,6 @@ My initial foray into using LLMs to work with code was, as I suspect was the cas
 You can paste in instructions like this each time you work with your AI tool of choice. You can create custom GPTs in ChatGPT to save these custom instructions. I use a tool called Raycast for working with LLMs and it has a feature that allows me to create a custom AI prompt with these insturctions.
 
 Every time I have a question for AI, I call up my AI chat preset, which has my instructions embedded in it, and get out answers tailored to my desired style of coding. 
-
-**Resources**
-- Simon Couch interview
 :::
 
 ---
@@ -1547,6 +1590,11 @@ Please also always use the native pipe (|>) not the tidyverse pipe (%>%).
 Working with a tool like Raycast or ChatGPT requires you to go outside of your code editor. Another approach is to work with LLMs directly in your editor. If you use RStudio, you can connect directly with GitHub Copilot. If you use Positron, there are a number of extensions you can use to have LLMs interact directly with your code. Whether it's offering suggestions on improving your code, adding new code, or asking general questions about your code, these tools can be extremely helpful.
 :::
 
+---
+
+![](assets/gh-copilot.png){.shadow .rounded fig-align="center"}
+
+
 ### {.inverse}
 
 <video
@@ -1554,6 +1602,10 @@ Working with a tool like Raycast or ChatGPT requires you to go outside of your c
   loop
   src="assets/gh-copilot.mp4"
 ></video>
+
+---
+
+![](assets/windsurf.png){.shadow .rounded fig-align="center"}
 
 ### {.inverse}
 
@@ -1575,10 +1627,6 @@ A few months ago, I spoke with Posit developer Simon Couch, who is working on a 
 > Data science differs a bit from software engineering here, though, in that the state of your R environment is just as important (or more so) than the contents of your files. 
 
 In our conversation, Simon explained this further, saying that, when asking a question to an LLM, it's useful if it can see what the objects in your environment look like. The {gander} package solves this problem by passing information about your data frames alongside whatever request you make of an LLM.
-
-**Resources**
-- Podcast episode
-- https://simonpcouch.github.io/gander/
 :::
 
 ---
@@ -1586,6 +1634,11 @@ In our conversation, Simon explained this further, saying that, when asking a qu
 ::: {.large}
 Data science differs a bit from software engineering ... in that the state of your R environment is just as important (or more so) than the contents of your files.
 :::
+
+---
+
+![](assets/gander.png){.shadow .rounded fig-align="center"}
+
 
 ### {.inverse}
 
@@ -1604,6 +1657,11 @@ Now, before anything else, I have to say: please don't rely on LLMs for mission 
 
 With that said, the area I have found LLMs to be most helpful is with qualitative data. This data, which is often unstructured, is a perfect candidate for a tool that is comfortable bringing structure to messiness. Here are a few ways you can use it.
 :::
+
+---
+
+![](assets/mall.png){.shadow .rounded fig-align="center"}
+
 
 
 ## Translate Text {.inverse}
@@ -1633,6 +1691,7 @@ slice(2, 3, 10, 17, 34, 70, 67, 110, 133, 146) |>
 
 
 ```{r}
+#| output-location: default
 library(tidyverse)
 
 survey_spanish <-
@@ -1720,6 +1779,10 @@ Here, for example, I created my own function using {ellmer} to identify themes f
 
 ---
 
+![](assets/ellmer.png){.shadow .rounded fig-align="center"}
+
+---
+
 ::: {.r-fit-text}
 ```{r}
 #| output-location: default
@@ -1761,6 +1824,7 @@ survey_translated_combined
 ::: {.r-fit-text}
 ```{r}
 #| eval: false
+#| output-location: default
 survey_translated_combined |>
   identify_themes()
 ```

@@ -7,4 +7,4 @@ pps_elementary_schools <- read_sf("data/pps_elementary_schools.geojson")
 
 st_join(pps_elementary_schools, portland_boundaries) %>%
   filter(!is.na(cityname)) %>%
-  select(school)
+  pull(school)

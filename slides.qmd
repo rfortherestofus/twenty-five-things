@@ -312,7 +312,7 @@ read_html("https://en.wikipedia.org/wiki/List_of_FIFA_World_Cup_finals") |>
 
 # Efficiently Make Beautiful Data Viz {.inverse background-image="assets/graph.jpg"}
 
-## Make Your Own Theme {.inverse}
+## Make Your Own ggplot Theme {.inverse}
 
 :::{.big-number}
 6
@@ -687,6 +687,7 @@ https://github.com/MichiganFitnessFoundation/mff-r-training/issues/74
 ```{r}
 #| eval: false
 #| echo: false
+#| output-location: default
 
 # Data from https://rlisdiscovery.oregonmetro.gov/datasets/da2229f19d854845ae6e164d4924fe7a_0/explore?location=45.547982,-122.660240,12.42
 
@@ -701,6 +702,7 @@ metro_libraries |>
 
 ```{r}
 #| echo: false
+#| output-location: default
 
 library(sf)
 
@@ -1351,23 +1353,6 @@ In 2020, at the start of the COVID pandemic, we were working with Prosper Portla
 
 ---
 
-```{r}
-#| eval: false
-#| output-location: default
-
-library(tidyverse)
-library(quarto)
-
-rendered_report <- str_glue("covid-business-relief-contact-log-{today()}.html")
-
-quarto_render(
-  input = "report.qmd",
-  output_file = rendered_report
-)
-```
-
----
-
 ::: {.r-fit-text}
 ```{r}
 #| eval: false
@@ -1384,7 +1369,7 @@ email_report <-
   gm_from("David Keyes <david@rfortherestofus.com>") |>
   gm_subject("COVID Business Relief Contact Log") |>
   gm_text_body("See attached") |>
-  gm_attach_file(rendered_report)
+  gm_attach_file("grant-report.html")
 
 gm_send_message(email_report)
 ```
@@ -1517,11 +1502,10 @@ county_pages <- dir_ls("outputs/pages/county/")
 
 measure_pages <- dir_ls("outputs/pages/measure/")
 
-all_pages_zip <-
-  zip(
-    zipfile = str_glue("outputs/zip/obtn-files-{today()}.zip"),
-    files = c(county_pages, measure_pages)
-  )
+zip(
+  zipfile = str_glue("outputs/zip/obtn-files.zip"),
+  files = c(county_pages, measure_pages)
+)
 ```
 :::
 
@@ -1534,7 +1518,7 @@ all_pages_zip <-
 
 library(googledrive)
 
-drive_upload(all_pages_zip)
+drive_upload("outputs/zip/obtn-files.zip")
 ```
 :::
 
@@ -1647,6 +1631,83 @@ Data science differs a bit from software engineering ... in that the state of yo
   loop
   src="assets/gander.mp4"
 ></video>
+
+---
+
+````{markdown}
+#| output-location: default
+── system ──────────────────
+You are a helpful but terse R data scientist. 
+Respond only with valid R code: no exposition, no backticks. 
+Always provide a minimal solution and refrain from unnecessary additions. 
+Use tidyverse style and, when relevant, tidyverse packages. 
+For example, when asked to plot something, use ggplot2, 
+or when asked to transform data, using dplyr and/or tidyr unless 
+explicitly instructed otherwise. 
+
+── user ────────────────────
+Up to this point, the contents of my r file reads: 
+  
+library(tidyverse)
+library(sf)
+library(gander)
+
+portland_boundaries <- read_sf("data/portland_boundaries.geojson")
+pps_elementary_schools <- read_sf("data/pps_elementary_schools.geojson")
+
+Now, Write code to tell me which schools are within Portland boundaries 
+````
+
+---
+
+````{markdown}
+#| output-location: default
+Here's some information about the objects in my R environment: 
+
+```
+# Just the first 1 row and 6 columns:
+portland_boundaries
+#> sf [1 × 6] (S3: sf/tbl_df/tbl/data.frame)
+#>  $ objectid    : int 35
+#>  $ cityname    : chr "Portland"
+#>  $ shape_length: num 277321
+#>  $ shape_area  : num 7.66e+08
+#>  $ area        : num 4.05e+09
+#>  $ geometry    :sfc_MULTIPOLYGON of length 1; first list element: List of 4
+#>   ..$ :List of 13
+#>   .. ..$ : num [1:14525, 1:2] -123 -123 -123 -123 -123 ...
+#>   .. ..$ : num [1:642, 1:2] -123 -123 -123 -123 -123 ...
+#>   .. ..$ : num [1:118, 1:2] -123 -123 -123 -123 -123 ...
+#>   .. ..$ : num [1:5, 1:2] -122 -122 -122 -122 -122 ...
+#>   .. ..$ : num [1:4, 1:2] -122.5 -122.5 -122.5 -122.5 45.5 ...
+#>   .. ..$ : num [1:676, 1:2] -123 -123 -123 -123 -123 ...
+#>   .. ..$ : num [1:11, 1:2] -122 -122 -122 -122 -122 ...
+#>   .. ..$ : num [1:20, 1:2] -123 -123 -123 -123 -123 ...
+#>   .. ..$ : num [1:4, 1:2] -122.7 -122.7 -122.7 -122.7 45.5 ...
+#>   .. ..$ : num [1:10, 1:2] -122 -122 -122 -122 -122 ...
+#>   .. ..$ : num [1:28, 1:2] -123 -123 -123 -123 -123 ...
+#>   .. ..$ : num [1:57, 1:2] -123 -123 -123 -123 -123 ...
+#>   .. ..$ : num [1:75, 1:2] -123 -123 -123 -123 -123 ...
+#>   ..$ :List of 1
+#>   .. ..$ : num [1:6, 1:2] -123 -123 -123 -123 -123 ...
+#>   ..$ :List of 1
+#>   .. ..$ : num [1:189, 1:2] -123 -123 -123 -123 -123 ...
+#>   ..$ :List of 1
+#>   .. ..$ : num [1:5, 1:2] -123 -123 -123 -123 -123 ...
+#>   ..- attr(*, "class")= chr [1:3] "XY" "MULTIPOLYGON" "sfg"
+#>  - attr(*, "sf_column")= chr "geometry"
+#>  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA NA NA NA
+#>   ..- attr(*, "names")= chr [1:5] "objectid" "cityname" "shape_length" "shape_area" ...
+
+# Just the first 5 rows and 2 columns:
+pps_elementary_schools
+#> sf [5 × 2] (S3: sf/tbl_df/tbl/data.frame)
+#>  $ school  : chr [1:5] "Lenox Elementary School" "Cedar Mill Elementary School" "Montclair Elementary School" "Raleigh Hills Elementary School" ...
+#>  $ geometry:sfc_POINT of length 5; first list element:  'XY' num [1:2] -122.9 45.6
+#>  - attr(*, "sf_column")= chr "geometry"
+#>  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA
+#>   ..- attr(*, "names")= chr "school"
+````
 
 # Use AI for Data Analysis  {.inverse background-image="assets/ai-analysis.jpg"}
 

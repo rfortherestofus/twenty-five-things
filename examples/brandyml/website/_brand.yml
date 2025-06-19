@@ -10,8 +10,5 @@ typography:
   fonts:
     - family: Inter Tight
       source: google
-    - family: IBM Plex Mono
-      source: google
   base: Inter Tight
   headings: Inter Tight
-  monospace: IBM Plex Mono

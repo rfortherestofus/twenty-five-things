@@ -165,6 +165,16 @@ Another common tool for those collecting surveys is Qualtrics. And, fortunately 
 3
 :::
 
+
+---
+
+![](/assets/census-bureau-website.png){.shadow .rounded .r-stretch fig-align="center"}
+
+::: {.notes}
+Before I used R, I would spend hours on the Census Bureau website, finding the data I needed, downloading it, and then working with it in Excel. 
+:::
+
+
 ---
 
 ![](assets/tidycensus.png){.shadow .rounded fig-align="center"}
@@ -177,14 +187,6 @@ A third way that I like to connect directly to my data source is with the {tidyc
 
 ::: {.center-slide}
 ![](assets/largest-communities-oregon.png){.shadow .rounded fig-align="center"}
-:::
-
----
-
-![](/assets/census-bureau-website.png){.shadow .rounded .r-stretch fig-align="center"}
-
-::: {.notes}
-Before I used R, I would spend hours on the Census Bureau website, finding the data I needed, downloading it, and then working with it in Excel. 
 :::
 
 ---
@@ -447,6 +449,16 @@ penguins_bar_chart +
 
 :::{.big-number}
 7
+:::
+
+
+---
+
+::: {.r-fit-text}
+```{r}
+#| output-location: default
+theme_set(theme_dk())
+```
 :::
 
 ---
@@ -1215,7 +1227,7 @@ Creating reports in Quarto is just the first step. You also need to share them. 
 ---
 
 ::: {.r-fit-text}
-https://cascadia2025.rfortherestofus.com
+https://rfortherestofus.com/cascadia2025
 :::
 
 ## Make PDFs with Typst {.inverse}
@@ -1407,7 +1419,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: rocker/geospatial
     
     env:
       GMAILR_APP: ${{ secrets.GMAILR_APP }}
@@ -1428,7 +1439,6 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages("remotes")
-          remotes::install_cran("quarto")
           remotes::install_cran("gmailr")
           ETC
         shell: Rscript {0}
@@ -1449,6 +1459,12 @@ jobs:
 Speaking of automation, I often have to move files around. For example, when working on the annual Oregon by the Numbers Report, I make a ton of plots that I have to share with the graphic designer who lays out the report. I used to manually copy all of these files and upload them to Google Drive. But then I came across the {fs} and {zip} packages. I use {fs} to create a list of all the files I've created, which I then pass to the {zip} package in order to create a zip file. And, if I'm feeling extra fancy, I upload the zip file automatically to Google Drive using the {googledrive} package. With all of this, I just have to run my code and share a single link with the designer.
 :::
 
+
+
+---
+
+![](assets/obtn-pages.png){.shadow .rounded fig-align="center"}
+
 ---
 
 ![](assets/fs.png){.shadow .rounded fig-align="center"}
@@ -1462,23 +1478,6 @@ Speaking of automation, I often have to move files around. For example, when wor
 ![](assets/googledrive.png){.shadow .rounded fig-align="center"}
 
 
-
----
-
-```{r}
-#| echo: false
-#| eval: false
-
-# pdftools::pdf_subset(input = "/Users/davidkeyes/Documents/Work/clients/TFFF/OBTN/OBTN 2024.pdf",
-#                      output = here::here("assets/obtn-subset.pdf"),
-#                      pages = c(1, 18:21, 113:114))
-# 
-# rfortherestofus::pdf_to_gif(pdf_location = here::here("assets/obtn-subset.pdf"),
-#                             gif_file_path = "assets",
-#                             gif_file_name = "obtn.gif")
-```
-
-![](assets/obtn-pages.png){.shadow .rounded fig-align="center"}
 
 ---
 

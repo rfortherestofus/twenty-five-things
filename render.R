@@ -8,6 +8,11 @@ quarto_render(
   output_file = "index.html"
 )
 
+quarto_render(
+  input = "slides.qmd",
+  output_file = "slides.html"
+)
+
 # Examples ----------------------------------------------------------------
 
 # No branding -------------------------------------------------------------

@@ -103,7 +103,7 @@ h3.title {
 .reveal[data-navigation-mode="linear"] .title-slide h5,
 .reveal[data-navigation-mode="linear"] .title-slide h6 {
   font-size: 100px;
-    margin-top: 100px;
+    // margin-top: 100px;
 }
 
 // my turn slides
@@ -228,8 +228,8 @@ a > code {
   font-weight: 700; /* Bold for better visibility */
   font-style: italic;
   color: rgba(255, 255, 255, 0.5); /* Very light white, almost transparent */
-  text-shadow: 0px 1px 1px rgb(0 0 0 / 0.1), 0px 1px 2px rgb(0 0 0 / 0.1), 0px 2px 4px rgb(0 0 0 / 0.1);
-  z-index: -1; /* Behind other content */
+  // text-shadow: 0px 1px 1px rgb(0 0 0 / 0.1), 0px 1px 2px rgb(0 0 0 / 0.1), 0px 2px 4px rgb(0 0 0 / 0.1);
+  // z-index: -9999; /* Behind other content */
   user-select: none; /* Prevent text selection */
   pointer-events: none; /* Don't interfere with clicks */
   letter-spacing: -0.025em;

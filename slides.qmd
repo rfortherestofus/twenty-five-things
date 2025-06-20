@@ -58,6 +58,16 @@ Now, before I get started, just one thing: not everything you will hear me talk 
 
 ---
 
+1. Access Data Automagically
+1. Efficiently Make Beautiful Data Viz
+1. Make Maps
+1. Report in New Ways with Quarto
+1. Automate all the Things
+1. Use AI to Write Better Code
+1. Use AI to Analyze Data
+
+---
+
 ::: {.r-fit-text}
 https://rfortherestofus.com/cascadia2025
 :::
@@ -107,7 +117,7 @@ Using Google Forms allows me to put survey responses directly into Google Sheets
 library(googlesheets4)
 
 survey_data <-
-  read_sheet(YOURSHEETURLHERE)
+  read_sheet(sheet = "YOURSHEETURLHERE")
 ```
 :::
 
@@ -232,15 +242,6 @@ Under the hood, the {googlesheets4}, {qualtRics}, and {tidycensus} packages conn
 
 ![](assets/httr2.png){.shadow .rounded fig-align="center"}
 
-
----
-
-![](/assets/dashboard.png){.shadow .rounded fig-align="center"}
-
-::: {.notes}
-For example, I have an internal dashboard I use to pull in data from multiple sources. 
-:::
-
 ---
 
 ```{r}
@@ -275,6 +276,14 @@ Since few of these tools have dedicated R packages, I write code to connect to t
 read_rds(here::here("data/df_fathom.rds")) |>
   select(-page_type)
 ```
+
+---
+
+![](/assets/dashboard.png){.shadow .rounded fig-align="center"}
+
+::: {.notes}
+For example, I have an internal dashboard I use to pull in data from multiple sources. 
+:::
 
 
 ## Scrape Data {.inverse}
@@ -690,11 +699,12 @@ It's not just mapping that you can do in R. If you need to do geospatial analysi
 https://github.com/MichiganFitnessFoundation/mff-r-training/issues/74
 :::
 
+
+### Which Elementary Schools in Portland are Within One Mile of a Public Library? {.center-slide}
+
 ---
 
 ![](assets/sf.png){.shadow .rounded fig-align="center"}
-
----
 
 ```{r}
 #| eval: false
@@ -711,23 +721,6 @@ metro_libraries |>
   select(library = name) |>
   write_sf("data/portland_libraries.geojson")
 ```
-
-```{r}
-#| echo: false
-#| output-location: default
-
-library(sf)
-
-portland_center_coords <-
-  read_sf("data/portland_boundaries.geojson") |>
-  st_centroid() |>
-  st_coordinates() |>
-  as_tibble() |>
-  pivot_longer(cols = everything()) |>
-  pull(value)
-```
-
-### Which Elementary Schools in Portland are Within One Mile of a Public Library? {.center-slide}
 
 ---
 
@@ -1048,7 +1041,7 @@ maplibre(bounds = pps_elementary_schools_near_libraries) |>
 ```
 
 
-# Report in New Ways with Quarto  {.inverse background-image="assets/report.jpg"}
+# Report in New Ways with Quarto {.inverse background-image="assets/report.jpg"}
 
 ::: {.notes}
 Whatever else you do in R, you need to report your results. As a tool designed for reproducible reporting, R is, of course, incredibly well designed for this purpose. Here are some ways you can improve your reporting in R.
@@ -1099,6 +1092,8 @@ format: revealjs
 ```
 
 ---
+
+. . .
 
 `index.qmd`
 
@@ -1165,10 +1160,6 @@ A recent addition to the Quarto landscape is brand.yml. This framework allows yo
 
 ```{yaml}
 #| output-location: default
-meta:
-  name: R for the Rest of Us
-  link: https://rfortherestofus.com
-
 color:
   foreground: "#404e6b"
   primary: "#6cabdd"
@@ -1540,7 +1531,7 @@ My initial foray into using LLMs to work with code was, as I suspect was the cas
 
 > Please answer the following R question. When I program, I always like to use the tidyverse. Please don't ever give me base R solutions. Please also always use the native pipe (|>) not the tidyverse pipe (|>).
 
-You can paste in instructions like this each time you work with your AI tool of choice. You can create custom GPTs in ChatGPT to save these custom instructions. I use a tool called Raycast for working with LLMs and it has a feature that allows me to create a custom AI prompt with these insturctions.
+You can paste in instructions like this each time you work with your AI tool of choice. You can create custom GPTs in ChatGPT to save these custom instructions. I use a tool called Raycast for working with LLMs and it has a feature that allows me to create a custom AI prompt with these instructions.
 
 Every time I have a question for AI, I call up my AI chat preset, which has my instructions embedded in it, and get out answers tailored to my desired style of coding. 
 :::
@@ -1559,9 +1550,6 @@ When I program, I always like to use the tidyverse.
 
 Please don't ever give me base R solutions. 
 
-. . .
-
-Please also always use the native pipe (|>) not the tidyverse pipe (%>%).
 
 ## Use AI Directly in your Code Editor {.inverse}
 
@@ -1607,7 +1595,7 @@ Working with a tool like Raycast or ChatGPT requires you to go outside of your c
 ::: {.notes}
 A few months ago, I spoke with Posit developer Simon Couch, who is working on a range of R packages to interact with LLMs. Simon has written that:
 
-> Data science differs a bit from software engineering here, though, in that the state of your R environment is just as important (or more so) than the contents of your files. 
+> Data science differs a bit from software engineering here, though, in that **the state of your R environment is just as important (or more so) than the contents of your files**. 
 
 In our conversation, Simon explained this further, saying that, when asking a question to an LLM, it's useful if it can see what the objects in your environment look like. The {gander} package solves this problem by passing information about your data frames alongside whatever request you make of an LLM.
 :::
@@ -1615,7 +1603,7 @@ In our conversation, Simon explained this further, saying that, when asking a qu
 ---
 
 ::: {.large}
-Data science differs a bit from software engineering ... in that the state of your R environment is just as important (or more so) than the contents of your files.
+Data science differs a bit from software engineering ... in that **the state of your R environment is just as important (or more so) than the contents of your files**.
 :::
 
 ---
@@ -1643,7 +1631,12 @@ Use tidyverse style and, when relevant, tidyverse packages.
 For example, when asked to plot something, use ggplot2, 
 or when asked to transform data, using dplyr and/or tidyr unless 
 explicitly instructed otherwise. 
+````
 
+---
+
+````{markdown}
+#| output-location: default
 ── user ────────────────────
 Up to this point, the contents of my r file reads: 
   
@@ -1899,17 +1892,11 @@ Based on the survey responses provided, the top three themes appear to be:
 data analysis tools and frequent updates driven by community contributions. The active community also offers a wealth of packages for various tasks, which
 enhances the flexibility and capability of the software.
 
-2. **Learning and Accessibility**: While there is mention of a steep learning curve initially, respondents note that learning R becomes easier over time. 
-The diversity and availability of resources make it possible to quickly achieve results, encouraging continued learning and exploration.
+2. **Learning and Accessibility**: While there is mention of a steep learning curve initially, respondents note that learning R becomes easier over time. The diversity and availability of resources make it possible to quickly achieve results, encouraging continued learning and exploration.
 
-3. **Functionality and Efficiency**: Respondents appreciate the range of statistical procedures that R can handle with ease, as well as the speed and 
-efficiency in managing large datasets, such as through tools like rdata.table. The power of R's data structure, which aligns with mathematical concepts, 
-and the wide variety of packages further contribute to its functionality.
+
+3. **Functionality and Efficiency**: Respondents appreciate the range of statistical procedures that R can handle with ease, as well as the speed and efficiency in managing large datasets. The power of R's data structure, which aligns with mathematical concepts, and the wide variety of packages further contribute to its functionality.
 ```
-
-::: {.notes}
-https://www.garrickadenbuie.com/blog/llm-work-summary/
-:::
 
 # {.inverse}
 
